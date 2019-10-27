@@ -13,7 +13,8 @@ namespace Where1.stat
             { "summary", "operation=summary" },
             { "json", "output=json" },
             { "text", "output=text" },
-            { "csv", "output=csv" }
+            { "csv", "output=csv" },
+            { "2var", "dimensions=2" },
         };
 
         private static Dictionary<string, Operation> OperationDictionary = new Dictionary<string, Operation>() {
@@ -32,11 +33,13 @@ namespace Where1.stat
             const string set_pattern = @"set=(.+)";
             const string operation_pattern = @"operation=(.+)";
             const string output_pattern = @"output=(.+)";
+            const string dimension_pattern = @"dimensions=(\d+)";
             RegexOptions options = RegexOptions.Multiline;
 
             StringBuilder setRaw = new StringBuilder();
             Operation operation = Operation.list;
             Output output = Output.text;
+            int dimensions = 1;
 
 
             string[] expandedArgs = new string[args.Length];
@@ -93,9 +96,26 @@ namespace Where1.stat
                         if (i != 0)
                         {
                             Output tempOutput;
-                            if (OutputDictionary.TryGetValue((string)g.ToString(), out tempOutput))
+                            if (OutputDictionary.TryGetValue(g.ToString(), out tempOutput))
                             {
                                 output = tempOutput;
+                            }
+                        }
+                        i++;
+                    }
+                }
+
+                foreach (Match m in Regex.Matches(curr, dimension_pattern, options))
+                {
+                    int i = 0;
+                    foreach (var g in m.Groups)
+                    {
+                        if (i != 0)
+                        {
+                            int tempDimensions;
+                            if (int.TryParse(g.ToString(), out tempDimensions))
+                            {
+                                dimensions = tempDimensions;
                             }
                         }
                         i++;
@@ -108,18 +128,56 @@ namespace Where1.stat
                 setRaw.Append(Console.ReadLine());
             }
 
-            List<string> setStringList = setRaw.ToString().Split(',').ToList();
-            DataSet set = new DataSet(setStringList.Select(s => double.Parse(s)).ToList(), output);
-
-            switch (operation)
+            List<string> setStringList = setRaw.Replace("(", "").Replace(")", "").ToString().Split(',').ToList();
+            if (dimensions == 1)
             {
-                case Operation.list:
-                    Console.Write(set.List());
-                    break;
-                case Operation.summary:
-                    Console.Write(set.Summarize());
-                    break;
+                DataSet set = new DataSet(setStringList.Select(s => double.Parse(s)).ToList());
+                switch (operation)
+                {
+                    case Operation.list:
+                        Console.Write(set.List(output));
+                        break;
+                    case Operation.summary:
+                        Console.Write(set.Summarize(output));
+                        break;
+                }
             }
+            else
+            {
+                VectorSet vectorSet;
+
+                List<double>[] dimensionSets = new List<double>[dimensions];
+                DataSet[] dimensionDataSet = new DataSet[dimensions];
+
+                for (int i = 0; i < dimensions; i++)
+                {
+                    dimensionSets[i] = new List<double>();
+                }
+
+                for (int i = 0; i < setStringList.Count; i++)
+                {
+                    dimensionSets[i % dimensions].Add(double.Parse(setStringList[i]));
+                }
+
+                for (int i = 0; i < dimensions; i++)
+                {
+                    dimensionDataSet[i] = new DataSet(dimensionSets[i]);
+                }
+
+                vectorSet = new VectorSet(dimensionDataSet);
+
+                switch (operation)
+                {
+                    case Operation.list:
+                        Console.Write(vectorSet.List(output));
+                        break;
+                    case Operation.summary:
+                        Console.Write(vectorSet.Summarize(output));
+                        break;
+                }
+
+            }
+
 
 
             //foreach (var curr in set) {

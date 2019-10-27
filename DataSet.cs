@@ -7,20 +7,24 @@ namespace Where1.stat
 {
     class DataSet
     {
-        private List<Double> set = new List<double>();
-        Output outputFormat;
+        private readonly List<double> set = new List<double>();
 
-        public DataSet(List<double> setList, Output outputType = Output.text)
+        public DataSet(List<double> setList)
         {
+            setList.Sort();
             set = setList;
-            set.Sort();
-            outputFormat = outputType;
         }
 
-        public string List()
+        public List<double> GetSet() {
+            return set;
+        }
+
+        public double Get(int index) {
+            return set[index];
+        }
+
+        public string List(Output outputFormat = Output.text)
         {
-
-
             switch (outputFormat)
             {
                 case Output.text:
@@ -48,14 +52,14 @@ namespace Where1.stat
             }
         }
 
-        public string Summarize()
+        public string Summarize(Output outputFormat = Output.text)
         {
 
             switch (outputFormat)
             {
                 case Output.text:
                     return $"\tMin\t\tQ1\t\tMed\t\tQ3\t\tMax" +
-                         $"\n\t{min:f9}\t{Q1:f9}\t{med:f9}\t{Q3:f9}\t{max:f9}\n\n" +
+                         $"\n\t{Min:f9}\t{Q1:f9}\t{Med:f9}\t{Q3:f9}\t{Max:f9}\n\n" +
                          $"\tMean\t\tStd. Dev. (s)\tStd. Dev. (σ)\n" +
                          $"\t{this.Mean:f9}\t{this.SampleStandardDeviation:f9}\t{this.PopulationStandardDeviation:f9}";
                     break;
@@ -73,9 +77,10 @@ namespace Where1.stat
         private int QSize { get { return (int)Math.Floor(set.Count / 4.0); } }
         public double Q1 { get { return set[QSize]; } }
         public double Q3 { get { return set[set.Count - QSize - 1]; } }
-        public double min { get { return set[0]; } }
-        public double max { get { return set[set.Count - 1]; } }
-        public double med { get { return new DataSet(new List<Double>() { set[(int)Math.Floor((set.Count + 1) / 2.0) - 1], set[(int)Math.Ceiling((set.Count + 1) / 2.0) - 1] }).Mean; } }
+        public double Min { get { return set[0]; } }
+        public double Max { get { return set[set.Count - 1]; } }
+        public double Med { get { return new DataSet(new List<Double>() { set[(int)Math.Floor((set.Count + 1) / 2.0) - 1], set[(int)Math.Ceiling((set.Count + 1) / 2.0) - 1] }).Mean; } }
+        public int Length { get { return set.Count; } }
 
         public double Mean
         {
