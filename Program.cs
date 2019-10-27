@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Where1.stat.Graph;
 
 namespace Where1.stat
 {
@@ -176,7 +177,10 @@ namespace Where1.stat
                         break;
                 }
 
+                Plot p =new Plot(vectorSet);
+                p.Draw();
             }
+
 
 
 
