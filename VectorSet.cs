@@ -64,11 +64,50 @@ namespace Where1.stat
                 case Output.json:
                     return JsonSerializer.Serialize(Vectors);
                     break;
+                case Output.csv:
+                    StringBuilder outputCsv = new StringBuilder();
+                    for (int i = 0; i < Length; i++)
+                    {
+                        outputCsv.Append("(");
+                        for (int j = 0; j < Dimensions; j++)
+                        {
+                            outputCsv.Append(Vectors[i][j]);
+                            if (j < Dimensions - 1)
+                            {
+                                outputCsv.Append(',');
+                            }
+                        }
+                        outputCsv.Append("),");
+                    }
+
+                    return outputCsv.Remove(outputCsv.Length - 1, 1).ToString();
+                    break;
                 default:
                     throw new NotSupportedException("You attempted to output to a format that is not currently supported");
                     break;
             }
 
+        }
+
+        public string Summarize(Output outputFormat)
+        {
+
+            switch (outputFormat) {
+                case Output.text:
+                    StringBuilder output = new StringBuilder();
+
+                    for(int i=0; i<DataSets.Length; i++)
+                    {
+                        output.Append($"\nDimension {i}:\n\n{DataSets[i].Summarize(Output.text)}\n\n\n");
+                    }
+                    return output.ToString();
+                case Output.json:
+                    return JsonSerializer.Serialize(DataSets);
+                default:
+                    throw new NotSupportedException("You attempted to output to a format that is not currently supported");
+                    break;
+            }
+            
         }
     }
 }

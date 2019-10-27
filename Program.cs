@@ -171,6 +171,9 @@ namespace Where1.stat
                     case Operation.list:
                         Console.Write(vectorSet.List(output));
                         break;
+                    case Operation.summary:
+                        Console.Write(vectorSet.Summarize(output));
+                        break;
                 }
 
             }
