@@ -164,7 +164,7 @@ namespace Where1.stat
 
                 for (int i = 0; i < dimensions; i++)
                 {
-                    dimensionDataSet[i] = new DataSet(dimensionSets[i]);
+                    dimensionDataSet[i] = new DataSet(dimensionSets[i], i == 0);
                 }
 
                 vectorSet = new VectorSet(dimensionDataSet);

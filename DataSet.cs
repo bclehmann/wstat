@@ -9,17 +9,24 @@ namespace Where1.stat
     {
         private readonly List<double> set = new List<double>();
 
-        public DataSet(List<double> setList)
+        public DataSet(List<double> setList, bool explanatory = true)
         {
-            setList.Sort();
+            if (explanatory)
+            {
+
+                setList.Sort();
+            }
+
             set = setList;
         }
 
-        public List<double> GetSet() {
+        public List<double> GetSet()
+        {
             return set;
         }
 
-        public double Get(int index) {
+        public double Get(int index)
+        {
             return set[index];
         }
 
