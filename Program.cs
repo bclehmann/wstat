@@ -8,15 +8,12 @@ namespace Where1.stat
 {
     class Program
     {
-        
-
-        
-
         private static Dictionary<string, string> Shortcuts = new Dictionary<string, string>(){
             { "list", "operation=list" },
             { "summary", "operation=summary" },
             { "json", "output=json" },
             { "text", "output=text" },
+            { "csv", "output=csv" }
         };
 
         private static Dictionary<string, Operation> OperationDictionary = new Dictionary<string, Operation>() {
@@ -26,7 +23,8 @@ namespace Where1.stat
 
         private static Dictionary<string, Output> OutputDictionary = new Dictionary<string, Output>() {
             { "text", Output.text },
-            { "json", Output.json}
+            { "json", Output.json },
+            { "csv", Output.csv },
         };
 
         static void Main(string[] args)
