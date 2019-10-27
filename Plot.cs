@@ -50,7 +50,7 @@ namespace Where1.stat.Graph
             }
 
 
-            string filename = $"{Directory.GetCurrentDirectory()}/plots/plot_{ DateTime.Now.ToShortDateString() } { DateTime.Now.ToLongTimeString().Replace(':', '_') }.bmp";
+            string filename = $"{Directory.GetCurrentDirectory()}/plots/plot_{ DateTime.Now.ToShortDateString() }___{ DateTime.Now.ToLongTimeString().Replace(':', '-').Replace(' ', '_')}.bmp";
             FileStream stream = new FileStream(filename, FileMode.Create);
             bmp.Save(stream, ImageFormat.Bmp);
 
