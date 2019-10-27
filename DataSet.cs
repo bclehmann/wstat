@@ -19,19 +19,28 @@ namespace Where1.stat
 
         public string List()
         {
-            StringBuilder output = new StringBuilder();
-            foreach (double curr in set)
-            {
-                output.Append($"\t{curr:f9}\n");
-            }
+
 
             switch (outputFormat)
             {
                 case Output.text:
-                    return output.ToString();
+                    StringBuilder outputText = new StringBuilder();
+                    foreach (double curr in set)
+                    {
+                        outputText.Append($"\t{curr:f9}\n");
+                    }
+                    return outputText.ToString();
                     break;
                 case Output.json:
                     return JsonSerializer.Serialize(set);
+                    break;
+                case Output.csv:
+                    StringBuilder outputCsv = new StringBuilder();
+                    foreach (double curr in set)
+                    {
+                        outputCsv.Append($"{curr:f9},");
+                    }
+                    return outputCsv.Remove(outputCsv.Length - 1, 1).ToString();
                     break;
                 default:
                     throw new NotSupportedException("You attempted to output to a format that is not currently supported");
