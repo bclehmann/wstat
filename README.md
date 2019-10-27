@@ -34,6 +34,10 @@ In addition, you can also give no input and no command-line parameters: `stat su
 
 Currently json, csv and text output are supported. Text is the default. You can specify with `stat list json` or `stat list text`. The full version is `stat operation=list output=json`. The same information is given in both the list and the summary, it's just displayed differently. Please note that the only operation that supports CSV output is List.
 
+## Multivariable Sets
+
+This supports n-dimensions, just add `dimensions=2` to your command. A shorthand in the case of 2-D data, is `2var`. If you have 3+ dimensional data, you need to use `dimensions=3`
+
 ## Open Source
 
 This project is a very low priority for me, so if you decide to open some pull-requests to add features or otherwise improve code quality I would be very thankful.
