@@ -6,13 +6,13 @@
   "compilationOptions": {},
   "targets": {
     ".NETCoreApp,Version=v3.0": {
-      "stat/1.0.0": {
+      "wstat/1.0.0": {
         "dependencies": {
           "Newtonsoft.Json": "12.0.2",
           "System.Drawing.Common": "4.6.0"
         },
         "runtime": {
-          "stat.dll": {}
+          "wstat.dll": {}
         }
       },
       "Microsoft.NETCore.Platforms/3.0.0": {},
@@ -72,7 +72,7 @@
     }
   },
   "libraries": {
-    "stat/1.0.0": {
+    "wstat/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""
