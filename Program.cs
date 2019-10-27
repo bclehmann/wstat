@@ -16,11 +16,13 @@ namespace Where1.stat
             { "text", "output=text" },
             { "csv", "output=csv" },
             { "2var", "dimensions=2" },
+            { "plot", "operation=plot" }
         };
 
         private static Dictionary<string, Operation> OperationDictionary = new Dictionary<string, Operation>() {
             { "summary", Operation.summary },
-            { "list", Operation.list},
+            { "list", Operation.list },
+            { "plot", Operation.plot }
         };
 
         private static Dictionary<string, Output> OutputDictionary = new Dictionary<string, Output>() {
@@ -175,10 +177,12 @@ namespace Where1.stat
                     case Operation.summary:
                         Console.Write(vectorSet.Summarize(output));
                         break;
+                    case Operation.plot:
+                        Plot plot = new Plot(vectorSet);
+                        Console.WriteLine($"Filepath: {plot.Draw()}");
+                        break;
                 }
 
-                Plot p =new Plot(vectorSet);
-                p.Draw();
             }
 
 
