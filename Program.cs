@@ -8,29 +8,37 @@ namespace Where1.stat
 {
     class Program
     {
-        private enum Operation
-        {
-            list,
-            summary
-        };
+        
+
+        
 
         private static Dictionary<string, string> Shortcuts = new Dictionary<string, string>(){
             { "list", "operation=list" },
-            { "summary", "operation=summary" }
+            { "summary", "operation=summary" },
+            { "json", "output=json" },
+            { "text", "output=text" },
         };
 
         private static Dictionary<string, Operation> OperationDictionary = new Dictionary<string, Operation>() {
-            { "summary", Operation.summary}
+            { "summary", Operation.summary },
+            { "list", Operation.list},
+        };
+
+        private static Dictionary<string, Output> OutputDictionary = new Dictionary<string, Output>() {
+            { "text", Output.text },
+            { "json", Output.json}
         };
 
         static void Main(string[] args)
         {
             const string set_pattern = @"set=(.+)";
             const string operation_pattern = @"operation=(.+)";
+            const string output_pattern = @"output=(.+)";
             RegexOptions options = RegexOptions.Multiline;
 
             StringBuilder setRaw = new StringBuilder();
             Operation operation = Operation.list;
+            Output output = Output.text;
 
 
             string[] expandedArgs = new string[args.Length];
@@ -78,6 +86,23 @@ namespace Where1.stat
                         i++;
                     }
                 }
+
+                foreach (Match m in Regex.Matches(curr, output_pattern, options))
+                {
+                    int i = 0;
+                    foreach (var g in m.Groups)
+                    {
+                        if (i != 0)
+                        {
+                            Output tempOutput;
+                            if (OutputDictionary.TryGetValue((string)g.ToString(), out tempOutput))
+                            {
+                                output = tempOutput;
+                            }
+                        }
+                        i++;
+                    }
+                }
             }
 
             if (setRaw.Length == 0)
@@ -86,7 +111,7 @@ namespace Where1.stat
             }
 
             List<string> setStringList = setRaw.ToString().Split(',').ToList();
-            DataSet set = new DataSet(setStringList.Select(s => double.Parse(s)).ToList());
+            DataSet set = new DataSet(setStringList.Select(s => double.Parse(s)).ToList(), output);
 
             switch (operation)
             {
