@@ -7,6 +7,7 @@ namespace Where1.stat
     public enum Operation
     {
         list,
-        summary
+        summary,
+        plot
     };
 }

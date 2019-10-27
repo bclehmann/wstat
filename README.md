@@ -1,7 +1,7 @@
 
 # Statistics-CLI
 
-A *currently* very basic CLI for some stats stuff. It can list and it can summarize a numerical dataset.
+A *currently* very basic CLI for some stats stuff. It can list and it can summarize a numerical dataset. For 2D data it may also plot it.
 
     stat set=1,2,3 list
 
@@ -33,6 +33,14 @@ In addition, you can also give no input and no command-line parameters: `stat su
 ## Output (text, json or csv)
 
 Currently json, csv and text output are supported. Text is the default. You can specify with `stat list json` or `stat list text`. The full version is `stat operation=list output=json`. The same information is given in both the list and the summary, it's just displayed differently. Please note that the only operation that supports CSV output is List.
+
+## Multivariable Sets
+
+This supports n-dimensions, just add `dimensions=2` to your command. A shorthand in the case of 2-D data, is `2var`. If you have 3+ dimensional data, you need to use `dimensions=3`
+
+## Plotting 2-D Sets
+
+Pretty simple, just do `stat 2var plot` and once you type in your data it will give you the filepath.
 
 ## Open Source
 
