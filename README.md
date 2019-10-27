@@ -3,7 +3,7 @@
 
 A *currently* very basic CLI for some stats stuff. It can list and it can summarize a numerical dataset. For 2D data it may also plot it.
 
-    stat set=1,2,3 list
+    wstat set=1,2,3 list
 
 Will print something like this
 
@@ -12,11 +12,11 @@ Will print something like this
     2.000000000
     3.000000000
 
-You can also do `stat set=1,2,3 operation=list` if you're not a fan of the shorthand. The command line arguments can go in any order. For example `stat list set=1,2,3` is equally valid. In addition, `list` is the default opperation, so `stat set=1,2,3` is enough. If you specify your set in one of the additional ways below, you can get away with just `stat`
+You can also do `wstat set=1,2,3 operation=list` if you're not a fan of the shorthand. The command line arguments can go in any order. For example `wstat list set=1,2,3` is equally valid. In addition, `list` is the default opperation, so `wstat set=1,2,3` is enough. If you specify your set in one of the additional ways below, you can get away with just `wstat`
 
 ## Summarizing a Dataset
 
-Lists are cool and all, but at the end of the day, what you care about is probably more down here. `stat set=1,2,3 summary` will print something like this:
+Lists are cool and all, but at the end of the day, what you care about is probably more down here. `wstat set=1,2,3 summary` will print something like this:
 
 	Min             Q1              Med             Q3              Max
 	1.000000000     1.000000000     2.000000000     3.000000000     3.000000000
@@ -26,13 +26,13 @@ Lists are cool and all, but at the end of the day, what you care about is probab
 
 ## Using stdin and the Pipe Operator
 
-It's not terribly convenient to pass in everything as a command line argument, so you can pass in your set into stdin. This means that if `rng` is a command that creates a comma-separated list of numbers, `rng | stat summary` will let you summarize that list easily.
+It's not terribly convenient to pass in everything as a command line argument, so you can pass in your set into stdin. This means that if `rng` is a command that creates a comma-separated list of numbers, `rng | wstat summary` will let you summarize that list easily.
 
-In addition, you can also give no input and no command-line parameters: `stat summary` and the console will let you write your input, which will be read when you hit enter. This is useful when you are copy-pasting your dataset from elsewhere.
+In addition, you can also give no input and no command-line parameters: `wstat summary` and the console will let you write your input, which will be read when you hit enter. This is useful when you are copy-pasting your dataset from elsewhere.
 
 ## Output (text, json or csv)
 
-Currently json, csv and text output are supported. Text is the default. You can specify with `stat list json` or `stat list text`. The full version is `stat operation=list output=json`. The same information is given in both the list and the summary, it's just displayed differently. Please note that the only operation that supports CSV output is List.
+Currently json, csv and text output are supported. Text is the default. You can specify with `wstat list json` or `wstat list text`. The full version is `wstat operation=list output=json`. The same information is given in both the list and the summary, it's just displayed differently. Please note that the only operation that supports CSV output is List.
 
 ## Multivariable Sets
 
@@ -40,7 +40,7 @@ This supports n-dimensions, just add `dimensions=2` to your command. A shorthand
 
 ## Plotting 2-D Sets
 
-Pretty simple, just do `stat 2var plot` and once you type in your data it will give you the filepath.
+Pretty simple, just do `wstat 2var plot` and once you type in your data it will give you the filepath.
 
 ## Open Source
 
