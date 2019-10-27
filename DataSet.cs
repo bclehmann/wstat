@@ -34,18 +34,47 @@ namespace Where1.stat
             double max = set[set.Count - 1];
             double med = new DataSet(new List<Double>() { set[(int)Math.Floor((set.Count + 1) / 2.0) - 1], set[(int)Math.Ceiling((set.Count + 1) / 2.0) - 1] }).Mean();
 
-            return $"\t{min}\t{Q1}\t{med}\t{Q3}\t{max}";
+            return $"\tMin\t\tQ1\t\tMed\t\tQ3\t\tMax" +
+                    $"\n\t{min:f9}\t{Q1:f9}\t{med:f9}\t{Q3:f9}\t{max:f9}\n\n" +
+                    $"\tMean\t\tStd. Dev. (s)\tStd. Dev. (σ)\n" +
+                    $"\t{this.Mean():f9}\t{this.SampleStandardDeviation():f9}\t{this.PopulationStandardDeviation():f9}";
         }
 
-        public double Mean() {
-            Console.WriteLine(set[0]);
-            Console.WriteLine(set[1]);
+        public double Mean()
+        {
             double total = 0;
-            foreach (double curr in set) {
+            foreach (double curr in set)
+            {
                 total += curr;
             }
 
             return total / set.Count;
+        }
+
+        public double PopulationStandardDeviation()
+        {
+            double sumSquaredDifference = 0;
+            double mean = this.Mean();
+
+            foreach (double curr in set)
+            {
+                sumSquaredDifference += Math.Pow((curr - mean), 2);
+            }
+
+            return (Math.Sqrt(sumSquaredDifference / set.Count));
+        }
+
+        public double SampleStandardDeviation()
+        {
+            double sumSquaredDifference = 0;
+            double mean = this.Mean();
+
+            foreach (double curr in set)
+            {
+                sumSquaredDifference += Math.Pow((curr - mean), 2);
+            }
+
+            return (Math.Sqrt(sumSquaredDifference / (set.Count - 1)));
         }
     }
 }
