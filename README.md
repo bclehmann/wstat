@@ -12,7 +12,7 @@ Will print something like this
     2.000000000
     3.000000000
 
-You can also do `stat set=1,2,3 operation=list` if you're not a fan of the shorthand. The command line arguments can go in any order. For example `stat list set=1,2,3` is equally valid. In addition, `list` is the default opperation, so `stat set=1,2,3` is enough. If you specify your set in one of the additional ways below, you can get away with just `stat`.
+You can also do `stat set=1,2,3 operation=list` if you're not a fan of the shorthand. The command line arguments can go in any order. For example `stat list set=1,2,3` is equally valid. In addition, `list` is the default opperation, so `stat set=1,2,3` is enough. If you specify your set in one of the additional ways below, you can get away with just `stat`
 
 ## Summarizing a Dataset
 
