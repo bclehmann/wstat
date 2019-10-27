@@ -30,9 +30,9 @@ It's not terribly convenient to pass in everything as a command line argument, s
 
 In addition, you can also give no input and no command-line parameters: `stat summary` and the console will let you write your input, which will be read when you hit enter. This is useful when you are copy-pasting your dataset from elsewhere.
 
-## Output (text or json)
+## Output (text, json or csv)
 
-Currently both json and text output are supported. Text is the default. You can specify with `stat list json` or `stat list text`. The full version is `stat operation=list output=json`. The same information is given in both the list and the summary, it's just displayed differently.
+Currently json, csv and text output are supported. Text is the default. You can specify with `stat list json` or `stat list text`. The full version is `stat operation=list output=json`. The same information is given in both the list and the summary, it's just displayed differently. Please note that the only operation that supports CSV output is List.
 
 ## Open Source
 
