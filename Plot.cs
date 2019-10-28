@@ -45,6 +45,8 @@ namespace Where1.stat.Graph
 
         public async Task<string> Draw()
         {
+            bool lockedScale = false;
+
             Bitmap bmp = new Bitmap(width, height);
             Graphics g = Graphics.FromImage(bmp);
 
@@ -54,6 +56,9 @@ namespace Where1.stat.Graph
 
 
 
+            StringFormat centeredString = new StringFormat();
+            centeredString.Alignment = StringAlignment.Center;
+            centeredString.LineAlignment = StringAlignment.Center;
 
             g.FillRectangle(new SolidBrush(lightGrey), 0, 0, width, height);
             g.DrawRectangle(new Pen(Color.Red), new Rectangle(19, 19, width - 38, height - 38));
@@ -62,26 +67,74 @@ namespace Where1.stat.Graph
             g.DrawLine(new Pen(Color.Blue), width / 2, 20, width / 2, height - 20);
             g.DrawLine(new Pen(Color.Blue), 20, height / 2, width - 20, height / 2);
 
-            double xScale = (width - 100) / (2 * Vectors.DataSets[0].Max);
-            double yScale = (height - 100) / (2 * Vectors.DataSets[1].Max);
+            double[] originalScale = {
+                (width - 100) / (2 * Vectors.DataSets[0].Max),
+                (height - 100) / (2 * Vectors.DataSets[1].Max)
+            };
 
 
-            g.DrawString("0", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), width / 2 + 10, height / 2 + 10);
+            double[] scale = new double[Vectors.Dimensions];
 
-            g.DrawString(-Vectors.DataSets[0].Max + "", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), Justify(xScale, -Vectors.DataSets[0].Max, Axis.x), height / 2 + 10);
-            g.DrawString(Vectors.DataSets[0].Max + "", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), Justify(xScale, Vectors.DataSets[0].Max, Axis.x), height / 2 + 10);
 
-            g.DrawString(-Vectors.DataSets[1].Max + "", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), width / 2 + 10, Justify(yScale, -Vectors.DataSets[1].Max, Axis.y));
-            g.DrawString(Vectors.DataSets[1].Max + "", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), width / 2 + 10, Justify(yScale, Vectors.DataSets[1].Max, Axis.y));
+            double min = originalScale[0];
+            double max = originalScale[0];
+            foreach (var curr in originalScale)
+            {
+                min = curr < min ? curr : min;
+                max = curr > max ? curr : max;
+            }
+
+            if (min / max > 0.5)
+            {
+                lockedScale = true;
+                for (int i = 0; i < scale.Length; i++)
+                {
+                    scale[i] = min;
+                }
+            }
+            else
+            {
+                scale = originalScale;
+            }
+
+            g.DrawString("0", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), width / 2 + 10, height / 2 + 10, centeredString);
+
+            g.DrawString($"{-Vectors.DataSets[0].Max:f2}", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), Justify(scale[0], -Vectors.DataSets[0].Max, Axis.x), height / 2 + 10, centeredString);
+            g.DrawString($"{Vectors.DataSets[0].Max:f2}", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), Justify(scale[0], Vectors.DataSets[0].Max, Axis.x), height / 2 + 10, centeredString);
+
+            g.DrawString($"{-Vectors.DataSets[1].Max:f2}", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), width / 2 + 30, Justify(scale[1], -Vectors.DataSets[1].Max, Axis.y), centeredString);
+            g.DrawString($"{-Vectors.DataSets[1].Max:f2}", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), width / 2 + 30, Justify(scale[1], Vectors.DataSets[1].Max, Axis.y), centeredString);
+
+            if (lockedScale)
+            {
+                for (int i = 0; i < Vectors.Dimensions; i++)
+                {
+                    Axis axis = i == 0 ? Axis.x : Axis.y;
+
+                    if (scale[i] != originalScale[i])
+                    {
+                        if (axis == Axis.x)
+                        {
+                            g.DrawString($"{Vectors.DataSets[i].Max * (originalScale[i] / scale[i]):f2}", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), Justify(originalScale[i], Vectors.DataSets[i].Max, axis), height / 2 + 10, centeredString);
+                            g.DrawString($"{-Vectors.DataSets[i].Max * (originalScale[i] / scale[i]):f2}", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), Justify(originalScale[i], -Vectors.DataSets[i].Max, axis), height / 2 + 10, centeredString);
+                        }
+                        else
+                        {
+                            g.DrawString($"{Vectors.DataSets[i].Max * (originalScale[i] / scale[i]):f2}", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), width / 2 + 30, Justify(originalScale[i], Vectors.DataSets[i].Max, axis), centeredString);
+                            g.DrawString($"{-Vectors.DataSets[i].Max * (originalScale[i] / scale[i]):f2}", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), width / 2 + 30, Justify(originalScale[i], -Vectors.DataSets[i].Max, axis), centeredString);
+                        }
+                    }
+                }
+            }
 
 
             foreach (var curr in Vectors.Vectors)
             {
-                int x = Justify(xScale, curr[0], Axis.x);
-                int y = Justify(yScale, curr[1], Axis.y);
+                int x = Justify(scale[0], curr[0], Axis.x);
+                int y = Justify(scale[1], curr[1], Axis.y);
 
                 int r = 4;
-                g.FillEllipse(new SolidBrush(Color.Black), x, y, r, r);
+                g.FillEllipse(new SolidBrush(Color.Black), x - r / 2, y - r / 2, r, r);
 
                 //Console.WriteLine($"{x},{y}");
             }

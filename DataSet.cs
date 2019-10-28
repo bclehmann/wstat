@@ -81,11 +81,43 @@ namespace Where1.stat
 
 
         private int QSize { get { return (int)Math.Floor(set.Count / 4.0); } }
-        public double Q1 { get { return set[QSize]; } }
+        public double Q1
+        {
+            get
+            {
+                var tempSet = set;
+                tempSet.Sort();
+                return tempSet[QSize];
+            }
+        }
         public double Q3 { get { return set[set.Count - QSize - 1]; } }
-        public double Min { get { return set[0]; } }
-        public double Max { get { return set[set.Count - 1]; } }
-        public double Med { get { return new DataSet(new List<Double>() { set[(int)Math.Floor((set.Count + 1) / 2.0) - 1], set[(int)Math.Ceiling((set.Count + 1) / 2.0) - 1] }).Mean; } }
+        public double Min
+        {
+            get
+            {
+                var tempSet = set;
+                tempSet.Sort();
+                return tempSet[0];
+            }
+        }
+        public double Max
+        {
+            get
+            {
+                var tempSet = set;
+                tempSet.Sort();
+                return tempSet[set.Count - 1];
+            }
+        }
+        public double Med
+        {
+            get
+            {
+                var tempSet = set;
+                tempSet.Sort();
+                return new DataSet(new List<Double>() { tempSet[(int)Math.Floor((set.Count + 1) / 2.0) - 1], tempSet[(int)Math.Ceiling((set.Count + 1) / 2.0) - 1] }).Mean;
+            }
+        }
         public int Length { get { return set.Count; } }
 
         public double Mean
