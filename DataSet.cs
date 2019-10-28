@@ -13,7 +13,6 @@ namespace Where1.stat
         {
             if (explanatory)
             {
-
                 setList.Sort();
             }
 

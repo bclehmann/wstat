@@ -42,6 +42,14 @@ This supports n-dimensions, just add `dimensions=2` to your command. A shorthand
 
 Pretty simple, just do `wstat 2var plot` and once you type in your data it will give you the filepath.
 
+For example, a set like this: `(-3,9),(-2,4),(-1,1),(0,0),(1,1),(2,4),(3,9)`
+
+Would produce a plot like this:
+
+![Plot](/demo/plot_2019-10-27___09-50-19_PM.bmp)
+
+The parantheses around points are optional, I include them because I prefer the notation, especially for a demo/tutorial.
+
 ## Open Source
 
 This project is a very low priority for me, so if you decide to open some pull-requests to add features or otherwise improve code quality I would be very thankful.
