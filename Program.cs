@@ -31,7 +31,11 @@ namespace Where1.stat
             { "csv", Output.csv },
         };
 
-        static void Main(string[] args)
+        public static void Main(string[] args) {
+            Run(args);
+        }
+
+        async static void Run(string[] args)
         {
             const string set_pattern = @"set=(.+)";
             const string operation_pattern = @"operation=(.+)";
@@ -179,7 +183,8 @@ namespace Where1.stat
                         break;
                     case Operation.plot:
                         Plot plot = new Plot(vectorSet);
-                        Console.WriteLine($"Filepath: {plot.Draw()}");
+                        string filename = await plot.Draw();
+                        Console.WriteLine($"Filepath: {filename}");
                         break;
                 }
 
