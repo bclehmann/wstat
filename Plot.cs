@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Where1.stat.Graph
 {
@@ -18,7 +19,7 @@ namespace Where1.stat.Graph
             }
         }
 
-        public string Draw()
+        public async Task<string> Draw()
         {
             Bitmap bmp = new Bitmap(600, 400);
             Graphics g = Graphics.FromImage(bmp);
@@ -49,10 +50,14 @@ namespace Where1.stat.Graph
                 //Console.WriteLine($"{x},{y}");
             }
 
-
+            if (!Directory.Exists(Directory.GetCurrentDirectory() + "/plots"))
+            {
+                Directory.CreateDirectory(Directory.GetCurrentDirectory() + "/plots");
+            }
             string filename = $"{Directory.GetCurrentDirectory()}/plots/plot_{ DateTime.Now.ToShortDateString() }___{ DateTime.Now.ToLongTimeString().Replace(':', '-').Replace(' ', '_')}.bmp";
             FileStream stream = new FileStream(filename, FileMode.Create);
             bmp.Save(stream, ImageFormat.Bmp);
+            await stream.FlushAsync();
 
             return filename;
         }
