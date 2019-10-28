@@ -7,6 +7,12 @@ using System.Threading.Tasks;
 
 namespace Where1.stat.Graph
 {
+    public enum Axis
+    {
+        x,
+        y
+    }
+
     class Plot
     {
         VectorSet Vectors;
@@ -19,9 +25,27 @@ namespace Where1.stat.Graph
             }
         }
 
+        private const int width = 600;
+        private const int height = 400;
+
+        private int Justify(double scale, double value, Axis axis)
+        {
+            switch (axis)
+            {
+                case Axis.x:
+                    return (int)(value * scale) + width / 2;
+                    break;
+                case Axis.y:
+                    return (int)(height - ((value * scale) + height / 2));
+                    break;
+            }
+
+            throw new NotSupportedException("An attempt to justify an unsupported axis was made.");
+        }
+
         public async Task<string> Draw()
         {
-            Bitmap bmp = new Bitmap(600, 400);
+            Bitmap bmp = new Bitmap(width, height);
             Graphics g = Graphics.FromImage(bmp);
 
 
@@ -31,21 +55,33 @@ namespace Where1.stat.Graph
 
 
 
-            g.FillRectangle(new SolidBrush(lightGrey), 0, 0, bmp.Width, bmp.Height);
-            g.DrawRectangle(new Pen(Color.Red), new Rectangle(19, 19, bmp.Width - 38, bmp.Height - 38));
-            g.FillRectangle(new SolidBrush(Color.White), 20, 20, bmp.Width - 40, bmp.Height - 40);
+            g.FillRectangle(new SolidBrush(lightGrey), 0, 0, width, height);
+            g.DrawRectangle(new Pen(Color.Red), new Rectangle(19, 19, width - 38, height - 38));
+            g.FillRectangle(new SolidBrush(Color.White), 20, 20, width - 40, height - 40);
 
-            g.DrawLine(new Pen(Color.Blue), bmp.Width / 2, 20, bmp.Width / 2, bmp.Height - 20);
-            g.DrawLine(new Pen(Color.Blue), 20, bmp.Height / 2, bmp.Width - 20, bmp.Height / 2);
+            g.DrawLine(new Pen(Color.Blue), width / 2, 20, width / 2, height - 20);
+            g.DrawLine(new Pen(Color.Blue), 20, height / 2, width - 20, height / 2);
 
-            double xScale = (bmp.Width - 100) / (4 * Vectors.DataSets[0].Max);
-            double yScale = (bmp.Height - 100) / (4 * Vectors.DataSets[1].Max);
+            double xScale = (width - 100) / (2 * Vectors.DataSets[0].Max);
+            double yScale = (height - 100) / (2 * Vectors.DataSets[1].Max);
+
+
+            g.DrawString("0", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), width / 2 + 10, height / 2 + 10);
+
+            g.DrawString(-Vectors.DataSets[0].Max + "", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), Justify(xScale, -Vectors.DataSets[0].Max, Axis.x), height / 2 + 10);
+            g.DrawString(Vectors.DataSets[0].Max + "", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), Justify(xScale, Vectors.DataSets[0].Max, Axis.x), height / 2 + 10);
+
+            g.DrawString(-Vectors.DataSets[1].Max + "", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), width / 2 + 10, Justify(yScale, -Vectors.DataSets[1].Max, Axis.y));
+            g.DrawString(Vectors.DataSets[1].Max + "", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), width / 2 + 10, Justify(yScale, Vectors.DataSets[1].Max, Axis.y));
+
 
             foreach (var curr in Vectors.Vectors)
             {
-                int x = (int)(curr[0] * xScale) + bmp.Width / 2;
-                int y = (int)(bmp.Height - ((curr[1] * yScale) + bmp.Height / 2));
-                g.FillEllipse(new SolidBrush(Color.Black), x, y, 5, 5);
+                int x = Justify(xScale, curr[0], Axis.x);
+                int y = Justify(yScale, curr[1], Axis.y);
+
+                int r = 2;
+                g.FillEllipse(new SolidBrush(Color.Black), x, y, r, r);
 
                 //Console.WriteLine($"{x},{y}");
             }
