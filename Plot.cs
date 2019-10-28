@@ -80,7 +80,7 @@ namespace Where1.stat.Graph
                 int x = Justify(xScale, curr[0], Axis.x);
                 int y = Justify(yScale, curr[1], Axis.y);
 
-                int r = 2;
+                int r = 4;
                 g.FillEllipse(new SolidBrush(Color.Black), x, y, r, r);
 
                 //Console.WriteLine($"{x},{y}");
