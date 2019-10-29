@@ -9,13 +9,8 @@ namespace Where1.stat
     {
         private readonly List<double> set = new List<double>();
 
-        public DataSet(List<double> setList, bool explanatory = true)
+        public DataSet(List<double> setList)
         {
-            if (explanatory)
-            {
-                setList.Sort();
-            }
-
             set = setList;
         }
 
@@ -31,22 +26,24 @@ namespace Where1.stat
 
         public string List(Output outputFormat = Output.text)
         {
+            var tempSet = set;
+            tempSet.Sort();
             switch (outputFormat)
             {
                 case Output.text:
                     StringBuilder outputText = new StringBuilder();
-                    foreach (double curr in set)
+                    foreach (double curr in tempSet)
                     {
                         outputText.Append($"\t{curr:f9}\n");
                     }
                     return outputText.ToString();
                     break;
                 case Output.json:
-                    return JsonSerializer.Serialize(set);
+                    return JsonSerializer.Serialize(tempSet);
                     break;
                 case Output.csv:
                     StringBuilder outputCsv = new StringBuilder();
-                    foreach (double curr in set)
+                    foreach (double curr in tempSet)
                     {
                         outputCsv.Append($"{curr:f9},");
                     }

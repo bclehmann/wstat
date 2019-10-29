@@ -1,4 +1,5 @@
 
+
 # Statistics-CLI
 
 A *currently* very basic CLI for some stats stuff. It can list and it can summarize a numerical dataset. For 2D data it may also plot it.
@@ -46,10 +47,26 @@ For example, a set like this: `(-3,9),(-2,4),(-1,1),(0,0),(1,1),(2,4),(3,9)`
 
 Would produce a plot like this:
 
-![Plot](/demo/plot_2019-10-27___09-50-19_PM.bmp)
+![Plot](/demo/plot_2019-10-28___08-30-46_PM.bmp)
 
 The parantheses around points are optional, I include them because I prefer the notation, especially for a demo/tutorial.
 
+## Linear Regression
+
+Add a `linreg` to your plot command `wstat 2var plot linreg` and it will give you a printout as well as draw the Least Square Regression Line on the graph. `linreg` is a shorthand for `options=linreg`, if you use multiple options you need to do `options=option1,linreg,option3`.
+
+For the set `-2,2,2,0.11134,0,0.8` I got this plot:
+![linreg Plot](/demo/plot_2019-10-28___08-28-04_PM.bmp)
+
+And this printout: 
+	
+	    y=a+bx
+		
+        a=0.9704466667026279
+        b=-0.472165
+
+
+        Filepath: C:\Users\benny\source\repos\stat\statistics-cli/plots/plot_2019-10-28___08-35-24_PM.bmp
 ## Open Source
 
 This project is a very low priority for me, so if you decide to open some pull-requests to add features or otherwise improve code quality I would be very thankful.
