@@ -16,7 +16,8 @@ namespace Where1.stat
             { "text", "output=text" },
             { "csv", "output=csv" },
             { "2var", "dimensions=2" },
-            { "plot", "operation=plot" }
+            { "plot", "operation=plot" },
+            { "linreg", "options=linreg" },
         };
 
         private static Dictionary<string, Operation> OperationDictionary = new Dictionary<string, Operation>() {
@@ -31,7 +32,12 @@ namespace Where1.stat
             { "csv", Output.csv },
         };
 
-        public static void Main(string[] args) {
+        private static Dictionary<string, Option> OptionDictionary = new Dictionary<string, Option>() {
+            { "linreg", Option.linreg },
+        };
+
+        public static void Main(string[] args)
+        {
             Run(args);
         }
 
@@ -41,12 +47,17 @@ namespace Where1.stat
             const string operation_pattern = @"operation=(.+)";
             const string output_pattern = @"output=(.+)";
             const string dimension_pattern = @"dimensions=(\d+)";
+            const string options_pattern = @"options=(.+)";
+
+
+
             RegexOptions options = RegexOptions.Multiline;
 
             StringBuilder setRaw = new StringBuilder();
             Operation operation = Operation.list;
             Output output = Output.text;
             int dimensions = 1;
+            List<string> enabledOptions = new List<string>();
 
 
             string[] expandedArgs = new string[args.Length];
@@ -128,6 +139,23 @@ namespace Where1.stat
                         i++;
                     }
                 }
+
+                foreach (Match m in Regex.Matches(curr, options_pattern, options))
+                {
+                    int i = 0;
+                    foreach (var g in m.Groups)
+                    {
+                        if (i != 0)
+                        {
+                            string[] tempOptions = g.ToString().Split(',');
+                            foreach (var currOption in tempOptions)
+                            {
+                                enabledOptions.Add(currOption);
+                            }
+                        }
+                        i++;
+                    }
+                }
             }
 
             if (setRaw.Length == 0)
@@ -168,7 +196,7 @@ namespace Where1.stat
 
                 for (int i = 0; i < dimensions; i++)
                 {
-                    dimensionDataSet[i] = new DataSet(dimensionSets[i], i == 0);
+                    dimensionDataSet[i] = new DataSet(dimensionSets[i]);
                 }
 
                 vectorSet = new VectorSet(dimensionDataSet);
@@ -183,8 +211,24 @@ namespace Where1.stat
                         break;
                     case Operation.plot:
                         Plot plot = new Plot(vectorSet);
-                        string filename = await plot.Draw();
-                        Console.WriteLine($"Filepath: {filename}");
+                        string filename = "";
+                        if (enabledOptions.Contains("linreg"))
+                        {
+                            filename = await plot.Draw(RegressionLines.linear);
+                            double[] coefficients = vectorSet.LeastSquareResidualRegressionLine();
+                            Console.WriteLine($"\n" +
+                                $"\ty=a+bx" +
+                                $"\n\n" +
+                                $"\ta={coefficients[0]}\n" +
+                                $"\tb={coefficients[1]}" +
+                                $"\n");
+                        }
+                        else
+                        {
+                            filename = await plot.Draw();
+                        }
+
+                        Console.WriteLine($"\n\tFilepath: {filename}");
                         break;
                 }
 
