@@ -124,7 +124,7 @@ namespace Where1.stat
             double sumXSquareResidual = 0;
 
 
-            double aIncrement = 1;
+            //double aIncrement = 1;
 
             for (int i = 0; i < Length; i++)
             {
@@ -134,29 +134,30 @@ namespace Where1.stat
 
             b = sumXYResidual / (sumXSquareResidual);
 
+            a = b * DataSets[0].Mean - DataSets[1].Mean;//LSRL always passes through the point (x̅,y̅)
 
-            while (aIncrement > 2 >> 10)
-            {
-                double initial = LeastSquareRegression(a, b);
-                bool changed = false;
+            //while (aIncrement > 2 >> 10)
+            //{
+            //    double initial = LeastSquareRegression(a, b);
+            //    bool changed = false;
 
-                if (LeastSquareRegression(a - aIncrement, b) < initial)
-                {
-                    a -= aIncrement;
-                    changed = true;
-                }
-                else if (LeastSquareRegression(a + aIncrement, b) < initial)
-                {
-                    a += aIncrement;
-                    changed = true;
-                }
+            //    if (LeastSquareRegression(a - aIncrement, b) < initial)
+            //    {
+            //        a -= aIncrement;
+            //        changed = true;
+            //    }
+            //    else if (LeastSquareRegression(a + aIncrement, b) < initial)
+            //    {
+            //        a += aIncrement;
+            //        changed = true;
+            //    }
 
-                if (!changed)
-                {
+            //    if (!changed)
+            //    {
 
-                    aIncrement /= 2;
-                }
-            }
+            //        aIncrement /= 2;
+            //    }
+            //}
 
             return new double[] { a, b };
         }
