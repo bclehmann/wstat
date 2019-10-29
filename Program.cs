@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using Where1.stat.Graph;
@@ -229,6 +230,11 @@ namespace Where1.stat
                         }
 
                         Console.WriteLine($"\n\tFilepath: {filename}");
+                        if (RuntimeInformation.OSDescription.ToLower().Contains("windows"))
+                        {
+                            string strCmdText = "/C \"" + filename + "\"";
+                            System.Diagnostics.Process.Start("CMD.exe", strCmdText);
+                        }
                         break;
                 }
 

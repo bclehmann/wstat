@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 
 namespace Where1.stat.Graph
@@ -167,7 +168,8 @@ namespace Where1.stat.Graph
             FileStream stream = new FileStream(filename, FileMode.Create);
             bmp.Save(stream, ImageFormat.Bmp);
             await stream.FlushAsync();
-
+            await stream.DisposeAsync();
+            
             return filename;
         }
     }
