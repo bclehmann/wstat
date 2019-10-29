@@ -43,7 +43,7 @@ namespace Where1.stat.Graph
             throw new NotSupportedException("An attempt to justify an unsupported axis was made.");
         }
 
-        public async Task<string> Draw()
+        public async Task<string> Draw(RegressionLines regline = RegressionLines.none)
         {
             bool lockedScale = false;
 
@@ -60,8 +60,7 @@ namespace Where1.stat.Graph
             centeredString.Alignment = StringAlignment.Center;
             centeredString.LineAlignment = StringAlignment.Center;
 
-            g.FillRectangle(new SolidBrush(lightGrey), 0, 0, width, height);
-            g.DrawRectangle(new Pen(Color.Red), new Rectangle(19, 19, width - 38, height - 38));
+
             g.FillRectangle(new SolidBrush(Color.White), 20, 20, width - 40, height - 40);
 
             g.DrawLine(new Pen(Color.Blue), width / 2, 20, width / 2, height - 20);
@@ -138,6 +137,27 @@ namespace Where1.stat.Graph
 
                 //Console.WriteLine($"{x},{y}");
             }
+
+            if (regline == RegressionLines.linear)
+            {
+                double[] lineCoefficients = Vectors.LeastSquareResidualRegressionLine();
+
+                int xMagnitude = (int)(10 * Vectors.DataSets[0].Max);
+                Point p1 = new Point((int)Justify(scale[0], -xMagnitude, Axis.x), (int)Justify(scale[1], ((-xMagnitude * lineCoefficients[1]) + lineCoefficients[0]), Axis.y));
+                Point p2 = new Point((int)Justify(scale[0], xMagnitude, Axis.x), (int)Justify(scale[1], ((xMagnitude * lineCoefficients[1]) + lineCoefficients[0]), Axis.y));
+                Pen reglinePen = new Pen(Brushes.Gray);
+                reglinePen.DashStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+                reglinePen.DashPattern = new float[] { 10, 15 };
+                g.DrawLine(reglinePen, p1, p2);
+            }
+
+            g.FillRectangle(new SolidBrush(lightGrey), 0, 0, width, 20);
+            g.FillRectangle(new SolidBrush(lightGrey), 0, height - 20, width, 20);
+
+            g.FillRectangle(new SolidBrush(lightGrey), 0, 0, 20, height);
+            g.FillRectangle(new SolidBrush(lightGrey), width - 20, 0, 20, height);
+
+            g.DrawRectangle(new Pen(Color.Red), new Rectangle(19, 19, width - 38, height - 38));
 
             if (!Directory.Exists(Directory.GetCurrentDirectory() + "/plots"))
             {
