@@ -134,7 +134,7 @@ namespace Where1.stat
 
             b = sumXYResidual / (sumXSquareResidual);
 
-            a = b * DataSets[0].Mean - DataSets[1].Mean;//LSRL always passes through the point (x̅,y̅)
+            a = DataSets[1].Mean - (b * DataSets[0].Mean);//LSRL always passes through the point (x̅,y̅)
 
             //while (aIncrement > 2 >> 10)
             //{
