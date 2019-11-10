@@ -4,6 +4,7 @@
     {
         list,
         summary,
-        plot
+        plot,
+        reexpress
     };
 }

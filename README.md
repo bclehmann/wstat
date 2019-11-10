@@ -53,7 +53,7 @@ The parantheses around points are optional, I include them because I prefer the 
 
 ## Linear Regression
 
-Add a `linreg` to your plot command `wstat 2var plot linreg` and it will give you a printout as well as draw the Least Square Regression Line on the graph. `linreg` is a shorthand for `options=linreg`, if you use multiple options you need to do `options=option1,linreg,option3`.
+Add a `linreg` to your plot command `wstat 2var plot linreg` and it will give you a printout as well as draw the Least Square Regression Line on the graph. `linreg` is a shorthand for `options=linreg`, if you use multiple options you can do `options=option1,linreg,option3` or you can use the shorthands together.
 
 For the set `-2,2,2,0.11134,0,0.8` I got this plot:
 ![linreg Plot](/demo/plot_2019-10-28___08-28-04_PM.bmp)

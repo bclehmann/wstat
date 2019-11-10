@@ -19,12 +19,17 @@ namespace Where1.stat
             { "2var", "dimensions=2" },
             { "plot", "operation=plot" },
             { "linreg", "options=linreg" },
+            { "reexpress", "operation=reexpress" },
+            { "zscore", "options=zscore"},
+            { "population", "options=population"},
+            { "sample", "options=sample"},
         };
 
         private static Dictionary<string, Operation> OperationDictionary = new Dictionary<string, Operation>() {
             { "summary", Operation.summary },
             { "list", Operation.list },
-            { "plot", Operation.plot }
+            { "plot", Operation.plot },
+            { "reexpress", Operation.reexpress },
         };
 
         private static Dictionary<string, Output> OutputDictionary = new Dictionary<string, Output>() {
@@ -35,6 +40,7 @@ namespace Where1.stat
 
         private static Dictionary<string, Option> OptionDictionary = new Dictionary<string, Option>() {
             { "linreg", Option.linreg },
+            { "zscore", Option.zscore},
         };
 
         public static void Main(string[] args)
@@ -161,7 +167,11 @@ namespace Where1.stat
 
             if (setRaw.Length == 0)
             {
+                Console.WriteLine("\nType your set here:");
                 setRaw.Append(Console.ReadLine());
+                Console.WriteLine("\nYour set:");
+                Console.WriteLine(setRaw);
+                Console.WriteLine();
             }
 
             List<string> setStringList = setRaw.Replace("(", "").Replace(")", "").ToString().Split(',').ToList();
@@ -175,6 +185,25 @@ namespace Where1.stat
                         break;
                     case Operation.summary:
                         Console.Write(set.Summarize(output));
+                        break;
+                    case Operation.reexpress:
+                        if (enabledOptions.Contains("zscore"))
+                        {
+                            if (enabledOptions.Contains("population"))
+                            {
+                                Console.Write(set.StandardizeSet(true).List(output));
+                            }
+                            else if (enabledOptions.Contains("sample"))
+                            {
+                                Console.Write(set.StandardizeSet(false).List(output));
+                            }
+                            else
+                            {
+                                Console.WriteLine("Is your set a population? (Y/N)\n\nIf you don't know, select \"No\"");
+                                bool population = Console.ReadLine().ToUpper() == "Y";
+                                Console.Write(set.StandardizeSet(population).List(output));
+                            }
+                        }
                         break;
                 }
             }

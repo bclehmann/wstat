@@ -76,6 +76,18 @@ namespace Where1.stat
 
         }
 
+        public DataSet StandardizeSet(bool population) { //z-scores
+            double stdDev = population ? this.PopulationStandardDeviation : this.SampleStandardDeviation;
+            double mean = this.Mean;
+
+            List<double> tempSet = new List<double>(set.Count);
+            foreach (var curr in set) {
+                tempSet.Add((curr - mean) / stdDev);
+            }
+
+            return new DataSet(tempSet);
+        }
+
 
         private int QSize { get { return (int)Math.Floor(set.Count / 4.0); } }
         public double Q1

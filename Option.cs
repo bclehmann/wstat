@@ -3,6 +3,9 @@
     public enum Option
     {
         linreg,
+        zscore,
+        sample,
+        population,
     };
 }
 
