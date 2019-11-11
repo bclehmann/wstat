@@ -1,8 +1,12 @@
-﻿namespace Where1.stat
+﻿namespace Where1.wstat
 {
     public enum Option
     {
         linreg,
+        zscore,
+        sample,
+        population,
+        residual
     };
 }
 

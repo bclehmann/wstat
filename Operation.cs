@@ -1,9 +1,10 @@
-﻿namespace Where1.stat
+﻿namespace Where1.wstat
 {
     public enum Operation
     {
         list,
         summary,
-        plot
+        plot,
+        reexpress
     };
 }

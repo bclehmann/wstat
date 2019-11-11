@@ -1,4 +1,4 @@
-﻿namespace Where1.stat
+﻿namespace Where1.wstat
 {
     enum RegressionLines
     {
