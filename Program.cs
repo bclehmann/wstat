@@ -5,6 +5,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using Where1.stat.Graph;
+using Where1.stat.Regression;
 
 namespace Where1.stat
 {
@@ -245,7 +246,7 @@ namespace Where1.stat
                         if (enabledOptions.Contains("linreg"))
                         {
                             filename = await plot.Draw(RegressionLines.linear);
-                            double[] coefficients = vectorSet.LeastSquareResidualRegressionLine();
+                            double[] coefficients = new LinearRegressionLine().Calculate(vectorSet);
                             Console.WriteLine($"\n" +
                                 $"\ty=a+bx" +
                                 $"\n\n" +
@@ -282,6 +283,9 @@ namespace Where1.stat
                                 bool population = Console.ReadLine().ToUpper() == "Y";
                                 Console.Write(vectorSet.StandardizeSet(population).List(output));
                             }
+                        }
+                        else if (enabledOptions.Contains("residual")) { 
+                            
                         }
                         break;
                 }

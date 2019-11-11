@@ -5,6 +5,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
+using Where1.stat.Regression;
 
 namespace Where1.stat.Graph
 {
@@ -141,7 +142,7 @@ namespace Where1.stat.Graph
 
             if (regline == RegressionLines.linear)
             {
-                double[] lineCoefficients = Vectors.LeastSquareResidualRegressionLine();
+                double[] lineCoefficients = new LinearRegressionLine().Calculate(Vectors);
 
                 int xMagnitude = (int)(10 * Vectors.DataSets[0].Max);
                 Point p1 = new Point((int)Justify(scale[0], -xMagnitude, Axis.x), (int)Justify(scale[1], ((-xMagnitude * lineCoefficients[1]) + lineCoefficients[0]), Axis.y));

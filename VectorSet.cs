@@ -114,79 +114,12 @@ namespace Where1.stat
         { //z-scores
 
             List<DataSet> tempSets = new List<DataSet>(Dimensions);
-            foreach (var curr in DataSets) {
+            foreach (var curr in DataSets)
+            {
                 tempSets.Add(curr.StandardizeSet(population));
             }
 
             return new VectorSet(tempSets.ToArray());
-        }
-
-        public double[] LeastSquareResidualRegressionLine()
-        {
-            if (Dimensions != 2)
-            {
-                throw new NotSupportedException("linreg only supported in two dimensions currently");
-            }
-
-            double a = 1;
-            double b;
-
-            double sumXYResidual = 0;
-            double sumXSquareResidual = 0;
-
-
-            //double aIncrement = 1;
-
-            for (int i = 0; i < Length; i++)
-            {
-                sumXYResidual += (Vectors[i][0] - DataSets[0].Mean) * (Vectors[i][1] - DataSets[1].Mean);
-                sumXSquareResidual += Math.Pow((Vectors[i][0] - DataSets[0].Mean), 2);
-            }
-
-            b = sumXYResidual / (sumXSquareResidual);
-
-            a = DataSets[1].Mean - (b * DataSets[0].Mean);//LSRL always passes through the point (x̅,y̅)
-
-            //while (aIncrement > 2 >> 10)
-            //{
-            //    double initial = LeastSquareRegression(a, b);
-            //    bool changed = false;
-
-            //    if (LeastSquareRegression(a - aIncrement, b) < initial)
-            //    {
-            //        a -= aIncrement;
-            //        changed = true;
-            //    }
-            //    else if (LeastSquareRegression(a + aIncrement, b) < initial)
-            //    {
-            //        a += aIncrement;
-            //        changed = true;
-            //    }
-
-            //    if (!changed)
-            //    {
-
-            //        aIncrement /= 2;
-            //    }
-            //}
-
-            return new double[] { a, b };
-        }
-
-        private double LeastSquareRegression(double a, double b)
-        {
-            if (Dimensions != 2)
-            {
-                throw new NotSupportedException("linreg only supported in two dimensions currently");
-            }
-
-            double total = 0;
-            foreach (var curr in Vectors)
-            {
-                total += Math.Pow(curr[1] - (a + (b * curr[0])), 2);
-            }
-
-            return total;
         }
 
     }
