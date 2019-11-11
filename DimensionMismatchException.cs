@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace Where1.stat
+namespace Where1.wstat
 {
     [Serializable]
     internal class DimensionMismatchException : Exception

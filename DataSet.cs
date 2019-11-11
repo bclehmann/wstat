@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 
-namespace Where1.stat
+namespace Where1.wstat
 {
     class DataSet
     {

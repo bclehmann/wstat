@@ -5,9 +5,9 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
-using Where1.stat.Regression;
+using Where1.wstat.Regression;
 
-namespace Where1.stat.Graph
+namespace Where1.wstat.Graph
 {
     public enum Axis
     {

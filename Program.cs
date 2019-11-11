@@ -4,10 +4,10 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using Where1.stat.Graph;
-using Where1.stat.Regression;
+using Where1.wstat.Graph;
+using Where1.wstat.Regression;
 
-namespace Where1.stat
+namespace Where1.wstat
 {
     class Program
     {

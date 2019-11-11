@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
-using Where1.stat.Regression;
+using Where1.wstat.Regression;
 
-namespace Where1.stat
+namespace Where1.wstat
 {
     class VectorSet
     {

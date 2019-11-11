@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Where1.stat.Regression
+namespace Where1.wstat.Regression
 {
     interface IRegressionLine
     {
