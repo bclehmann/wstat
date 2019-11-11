@@ -67,6 +67,19 @@ And this printout:
 
 
         Filepath: C:\Users\benny\source\repos\stat\statistics-cli/plots/plot_2019-10-28___08-35-24_PM.bmp
+		
+## Reexpression
+
+Add a `reexpress`, and then choose either `zscore` or `residual` as an option. `zscore` works on N-Dimensional sets, `residual` requires a 2-Dimensional set. `residual` also requires you specify the regression line to use.
+
+`wstat reexpress zscore` will standardize a 1-Dimensional set.
+
+`wstat reexpress zscore 2var` for 2 dimensions.
+
+`wstat reexpress zscore dimensions=<n>` for n dimensions.
+
+`wstat reexpress residual 2var linreg` will print the residual set for a linear regression line in two dimensions.
+
 ## Open Source
 
 This project is a very low priority for me, so if you decide to open some pull-requests to add features or otherwise improve code quality I would be very thankful.
