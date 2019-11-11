@@ -110,6 +110,17 @@ namespace Where1.stat
 
         }
 
+        public VectorSet StandardizeSet(bool population)
+        { //z-scores
+
+            List<DataSet> tempSets = new List<DataSet>(Dimensions);
+            foreach (var curr in DataSets) {
+                tempSets.Add(curr.StandardizeSet(population));
+            }
+
+            return new VectorSet(tempSets.ToArray());
+        }
+
         public double[] LeastSquareResidualRegressionLine()
         {
             if (Dimensions != 2)

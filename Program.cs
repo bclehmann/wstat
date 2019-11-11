@@ -265,6 +265,25 @@ namespace Where1.stat
                             System.Diagnostics.Process.Start("CMD.exe", strCmdText);
                         }
                         break;
+                    case Operation.reexpress:
+                        if (enabledOptions.Contains("zscore"))
+                        {
+                            if (enabledOptions.Contains("population"))
+                            {
+                                Console.Write(vectorSet.StandardizeSet(true).List(output));
+                            }
+                            else if (enabledOptions.Contains("sample"))
+                            {
+                                Console.Write(vectorSet.StandardizeSet(false).List(output));
+                            }
+                            else
+                            {
+                                Console.WriteLine("Is your set a population? (Y/N)\n\nIf you don't know, select \"No\"");
+                                bool population = Console.ReadLine().ToUpper() == "Y";
+                                Console.Write(vectorSet.StandardizeSet(population).List(output));
+                            }
+                        }
+                        break;
                 }
 
             }
