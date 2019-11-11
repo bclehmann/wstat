@@ -69,13 +69,9 @@ namespace Where1.stat.Regression
             double a = coefficients[0];
             double b = coefficients[1];
 
-            double total = 0;
-            foreach (var curr in vset.Vectors)
-            {
-                total += Math.Pow(curr[1] - (a + (b * curr[0])), 2);
-            }
+            double residual = vector[1] - (vector[0] * b + a);
 
-            return total;
+            return residual;
         }
     }
 }

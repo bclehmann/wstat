@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using Where1.stat.Regression;
 
 namespace Where1.stat
 {
@@ -120,6 +121,21 @@ namespace Where1.stat
             }
 
             return new VectorSet(tempSets.ToArray());
+        }
+
+        public VectorSet ResidualSet(IRegressionLine regline) {
+            if (Dimensions != 2) {
+                throw new NotSupportedException("This is a 2D only feature");
+            }
+
+            List<double> residList = new List<double>(Length);
+            foreach (var curr in Vectors) {
+                residList.Add(regline.Residual(this, curr.ToArray()));
+            }
+
+            DataSet ySet = new DataSet(residList);
+            return new VectorSet(DataSets[0], ySet);
+
         }
 
     }

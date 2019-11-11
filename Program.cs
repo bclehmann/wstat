@@ -24,6 +24,7 @@ namespace Where1.stat
             { "zscore", "options=zscore"},
             { "population", "options=population"},
             { "sample", "options=sample"},
+            { "residual", "options=residual"},
         };
 
         private static Dictionary<string, Operation> OperationDictionary = new Dictionary<string, Operation>() {
@@ -37,11 +38,6 @@ namespace Where1.stat
             { "text", Output.text },
             { "json", Output.json },
             { "csv", Output.csv },
-        };
-
-        private static Dictionary<string, Option> OptionDictionary = new Dictionary<string, Option>() {
-            { "linreg", Option.linreg },
-            { "zscore", Option.zscore},
         };
 
         public static void Main(string[] args)
@@ -284,8 +280,12 @@ namespace Where1.stat
                                 Console.Write(vectorSet.StandardizeSet(population).List(output));
                             }
                         }
-                        else if (enabledOptions.Contains("residual")) { 
-                            
+                        else if (enabledOptions.Contains("residual"))
+                        {
+                            if (enabledOptions.Contains("linreg"))
+                            {
+                                Console.Write(vectorSet.ResidualSet(new LinearRegressionLine()).List(output));
+                            }
                         }
                         break;
                 }

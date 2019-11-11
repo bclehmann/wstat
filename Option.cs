@@ -6,6 +6,7 @@
         zscore,
         sample,
         population,
+        residual
     };
 }
 
