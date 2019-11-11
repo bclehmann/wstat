@@ -4,9 +4,10 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using Where1.stat.Graph;
+using Where1.wstat.Graph;
+using Where1.wstat.Regression;
 
-namespace Where1.stat
+namespace Where1.wstat
 {
     class Program
     {
@@ -19,22 +20,24 @@ namespace Where1.stat
             { "2var", "dimensions=2" },
             { "plot", "operation=plot" },
             { "linreg", "options=linreg" },
+            { "reexpress", "operation=reexpress" },
+            { "zscore", "options=zscore"},
+            { "population", "options=population"},
+            { "sample", "options=sample"},
+            { "residual", "options=residual"},
         };
 
         private static Dictionary<string, Operation> OperationDictionary = new Dictionary<string, Operation>() {
             { "summary", Operation.summary },
             { "list", Operation.list },
-            { "plot", Operation.plot }
+            { "plot", Operation.plot },
+            { "reexpress", Operation.reexpress },
         };
 
         private static Dictionary<string, Output> OutputDictionary = new Dictionary<string, Output>() {
             { "text", Output.text },
             { "json", Output.json },
             { "csv", Output.csv },
-        };
-
-        private static Dictionary<string, Option> OptionDictionary = new Dictionary<string, Option>() {
-            { "linreg", Option.linreg },
         };
 
         public static void Main(string[] args)
@@ -161,7 +164,11 @@ namespace Where1.stat
 
             if (setRaw.Length == 0)
             {
+                Console.WriteLine("\nType your set here:");
                 setRaw.Append(Console.ReadLine());
+                Console.WriteLine("\nYour set:");
+                Console.WriteLine(setRaw);
+                Console.WriteLine();
             }
 
             List<string> setStringList = setRaw.Replace("(", "").Replace(")", "").ToString().Split(',').ToList();
@@ -175,6 +182,25 @@ namespace Where1.stat
                         break;
                     case Operation.summary:
                         Console.Write(set.Summarize(output));
+                        break;
+                    case Operation.reexpress:
+                        if (enabledOptions.Contains("zscore"))
+                        {
+                            if (enabledOptions.Contains("population"))
+                            {
+                                Console.Write(set.StandardizeSet(true).List(output));
+                            }
+                            else if (enabledOptions.Contains("sample"))
+                            {
+                                Console.Write(set.StandardizeSet(false).List(output));
+                            }
+                            else
+                            {
+                                Console.WriteLine("Is your set a population? (Y/N)\n\nIf you don't know, select \"No\"");
+                                bool population = Console.ReadLine().ToUpper() == "Y";
+                                Console.Write(set.StandardizeSet(population).List(output));
+                            }
+                        }
                         break;
                 }
             }
@@ -216,7 +242,7 @@ namespace Where1.stat
                         if (enabledOptions.Contains("linreg"))
                         {
                             filename = await plot.Draw(RegressionLines.linear);
-                            double[] coefficients = vectorSet.LeastSquareResidualRegressionLine();
+                            double[] coefficients = new LinearRegressionLine().Calculate(vectorSet);
                             Console.WriteLine($"\n" +
                                 $"\ty=a+bx" +
                                 $"\n\n" +
@@ -234,6 +260,32 @@ namespace Where1.stat
                         {
                             string strCmdText = "/C \"" + filename + "\"";
                             System.Diagnostics.Process.Start("CMD.exe", strCmdText);
+                        }
+                        break;
+                    case Operation.reexpress:
+                        if (enabledOptions.Contains("zscore"))
+                        {
+                            if (enabledOptions.Contains("population"))
+                            {
+                                Console.Write(vectorSet.StandardizeSet(true).List(output));
+                            }
+                            else if (enabledOptions.Contains("sample"))
+                            {
+                                Console.Write(vectorSet.StandardizeSet(false).List(output));
+                            }
+                            else
+                            {
+                                Console.WriteLine("Is your set a population? (Y/N)\n\nIf you don't know, select \"No\"");
+                                bool population = Console.ReadLine().ToUpper() == "Y";
+                                Console.Write(vectorSet.StandardizeSet(population).List(output));
+                            }
+                        }
+                        else if (enabledOptions.Contains("residual"))
+                        {
+                            if (enabledOptions.Contains("linreg"))
+                            {
+                                Console.Write(vectorSet.ResidualSet(new LinearRegressionLine()).List(output));
+                            }
                         }
                         break;
                 }

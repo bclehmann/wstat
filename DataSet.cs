@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.Json;
 
-namespace Where1.stat
+namespace Where1.wstat
 {
     class DataSet
     {
@@ -74,6 +74,18 @@ namespace Where1.stat
                     break;
             }
 
+        }
+
+        public DataSet StandardizeSet(bool population) { //z-scores
+            double stdDev = population ? this.PopulationStandardDeviation : this.SampleStandardDeviation;
+            double mean = this.Mean;
+
+            List<double> tempSet = new List<double>(set.Count);
+            foreach (var curr in set) {
+                tempSet.Add((curr - mean) / stdDev);
+            }
+
+            return new DataSet(tempSet);
         }
 
 
