@@ -64,7 +64,10 @@ namespace Where1.wstat
                     return $"\tMin\t\tQ1\t\tMed\t\tQ3\t\tMax" +
                          $"\n\t{Min:f9}\t{Q1:f9}\t{Med:f9}\t{Q3:f9}\t{Max:f9}\n\n" +
                          $"\tMean\t\tStd. Dev. (s)\tStd. Dev. (σ)\n" +
-                         $"\t{this.Mean:f9}\t{this.SampleStandardDeviation:f9}\t{this.PopulationStandardDeviation:f9}";
+                         $"\t{this.Mean:f9}\t{this.SampleStandardDeviation:f9}\t{this.PopulationStandardDeviation:f9}" +
+                         $"\n\n" +
+                         $"Possible Outliers:\n" +
+                         $"{new DataSet(this.PossibleOutliers).List()}";
                     break;
                 case Output.json:
                     return JsonSerializer.Serialize(this);
@@ -76,16 +79,26 @@ namespace Where1.wstat
 
         }
 
-        public DataSet StandardizeSet(bool population) { //z-scores
+        public DataSet StandardizeSet(bool population)
+        { //z-scores
             double stdDev = population ? this.PopulationStandardDeviation : this.SampleStandardDeviation;
             double mean = this.Mean;
 
             List<double> tempSet = new List<double>(set.Count);
-            foreach (var curr in set) {
+            foreach (var curr in set)
+            {
                 tempSet.Add((curr - mean) / stdDev);
             }
 
             return new DataSet(tempSet);
+        }
+
+        public List<double> PossibleOutliers
+        {
+            get
+            {
+                return set.FindAll(m => m < Q1 - 1.5 * (Q3 - Q1) || m > Q3 + 1.5 * (Q3 - Q1));
+            }
         }
 
 
