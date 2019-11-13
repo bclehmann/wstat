@@ -24,6 +24,10 @@ Lists are cool and all, but at the end of the day, what you care about is probab
 
     Mean            Std. Dev. (s)   Std. Dev. (σ)
     2.000000000     1.000000000     0.816496581
+    
+## Outlier Detection
+
+You can also use this `summary` command to indicate potential outliers. They will be right under your normal summary.
 
 ## Using stdin and the Pipe Operator
 
