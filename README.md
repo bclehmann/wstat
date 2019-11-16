@@ -88,6 +88,8 @@ Add a `reexpress`, and then choose either `zscore` or `residual` as an option. `
 
 This project is a very low priority for me, so if you decide to open some pull-requests to add features or otherwise improve code quality I would be very thankful.
 
+Please note, I would like to have CI sorted out on PRs, however github actions is not currently cooperating with .NET Core 3.0, so we are currently stuck without it.
+
 ---
 ![Logo](/images/logo_full.png)
 
