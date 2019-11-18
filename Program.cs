@@ -25,6 +25,8 @@ namespace Where1.wstat
             { "population", "options=population"},
             { "sample", "options=sample"},
             { "residual", "options=residual"},
+            { "correlate", "operation=correlation"},
+            { "correlation", "operation=correlation"},
         };
 
         private static Dictionary<string, Operation> OperationDictionary = new Dictionary<string, Operation>() {
@@ -32,6 +34,7 @@ namespace Where1.wstat
             { "list", Operation.list },
             { "plot", Operation.plot },
             { "reexpress", Operation.reexpress },
+            { "correlation", Operation.correlation},
         };
 
         private static Dictionary<string, Output> OutputDictionary = new Dictionary<string, Output>() {
@@ -288,8 +291,23 @@ namespace Where1.wstat
                             }
                         }
                         break;
+                    case Operation.correlation:
+                        if (enabledOptions.Contains("population"))
+                        {
+                            Console.Write(vectorSet.Correlation(true));
+                        }
+                        else if (enabledOptions.Contains("sample"))
+                        {
+                            Console.Write(vectorSet.Correlation(false));
+                        }
+                        else
+                        {
+                            Console.WriteLine("Is your set a population? (Y/N)\n\nIf you don't know, select \"No\"");
+                            bool population = Console.ReadLine().ToUpper() == "Y";
+                            Console.Write(vectorSet.Correlation(population));
+                        }
+                        break;
                 }
-
             }
 
 

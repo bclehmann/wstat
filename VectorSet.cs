@@ -123,19 +123,46 @@ namespace Where1.wstat
             return new VectorSet(tempSets.ToArray());
         }
 
-        public VectorSet ResidualSet(IRegressionLine regline) {
-            if (Dimensions != 2) {
+        public VectorSet ResidualSet(IRegressionLine regline)
+        {
+            if (Dimensions != 2)
+            {
                 throw new NotSupportedException("This is a 2D only feature");
             }
 
             List<double> residList = new List<double>(Length);
-            foreach (var curr in Vectors) {
+            foreach (var curr in Vectors)
+            {
                 residList.Add(regline.Residual(this, curr.ToArray()));
             }
 
             DataSet ySet = new DataSet(residList);
             return new VectorSet(DataSets[0], ySet);
 
+        }
+
+        public double Correlation(bool population)
+        {
+            if (Dimensions != 2)
+            {
+                throw new NotSupportedException("This is a 2D only feature");
+            }
+
+            VectorSet zSet = this.StandardizeSet(population);
+
+            double sumProduct = 0;
+            foreach (var curr in zSet.Vectors)
+            {
+                double el = 1;
+                foreach (var curr2 in curr) {
+                    el *= curr2;
+                }
+                sumProduct += el;
+            }
+
+            double coefficient = population ? 1.0 / this.Length : 1.0 / (this.Length - 1);
+
+            return coefficient * sumProduct;
         }
 
     }
