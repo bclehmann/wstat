@@ -5,6 +5,7 @@
         list,
         summary,
         plot,
-        reexpress
+        reexpress,
+        correlation
     };
 }

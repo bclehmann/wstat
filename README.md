@@ -29,6 +29,10 @@ Lists are cool and all, but at the end of the day, what you care about is probab
 
 You can also use this `summary` command to indicate potential outliers. They will be right under your normal summary.
 
+## Correlation
+
+Type `correlate` or `correlation` to print the `r` correlation coefficient
+
 ## Using stdin and the Pipe Operator
 
 It's not terribly convenient to pass in everything as a command line argument, so you can pass in your set into stdin. This means that if `rng` is a command that creates a comma-separated list of numbers, `rng | wstat summary` will let you summarize that list easily.
