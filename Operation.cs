@@ -6,6 +6,8 @@
         summary,
         plot,
         reexpress,
-        correlation
+        correlation,
+        cdf,
+        invCdf
     };
 }
