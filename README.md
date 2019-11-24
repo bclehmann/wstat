@@ -88,6 +88,10 @@ Add a `reexpress`, and then choose either `zscore` or `residual` as an option. `
 
 `wstat reexpress residual 2var linreg` will print the residual set for a linear regression line in two dimensions.
 
+## Normal distribution
+
+Type `wstat cdf` for the cumulative distribution function for a normal distribution. Type `wstat invCdf` for the inverse.
+
 ## Open Source
 
 This project is a very low priority for me, so if you decide to open some pull-requests to add features or otherwise improve code quality I would be very thankful.
