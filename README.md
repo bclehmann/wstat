@@ -92,6 +92,10 @@ Add a `reexpress`, and then choose either `zscore` or `residual` as an option. `
 
 Type `wstat cdf` for the cumulative distribution function for a normal distribution. Type `wstat invCdf` for the inverse.
 
+## Linux Users
+
+This does work on Linux, however, for some features, notable graph plotting, it will not work as expected unless you compile your own version. You have been warned.
+
 ## Open Source
 
 This project is a very low priority for me, so if you decide to open some pull-requests to add features or otherwise improve code quality I would be very thankful.
