@@ -48,7 +48,6 @@ namespace Where1.wstat.Graph
         public async Task<string> Draw(RegressionLines regline = RegressionLines.none)
         {
             bool lockedScale = false;
-
             Bitmap bmp = new Bitmap(width, height);
             Graphics g = Graphics.FromImage(bmp);
 
@@ -161,6 +160,8 @@ namespace Where1.wstat.Graph
 
             g.DrawRectangle(new Pen(Color.Red), new Rectangle(19, 19, width - 38, height - 38));
 
+
+
             if (!Directory.Exists(Directory.GetCurrentDirectory() + "/plots"))
             {
                 Directory.CreateDirectory(Directory.GetCurrentDirectory() + "/plots");
@@ -168,7 +169,7 @@ namespace Where1.wstat.Graph
             string filename = $"{Directory.GetCurrentDirectory()}/plots/plot_{ DateTime.Now.ToShortDateString() }___{ DateTime.Now.ToLongTimeString().Replace(':', '-').Replace(' ', '_')}.bmp";
             FileStream stream = new FileStream(filename, FileMode.Create);
             bmp.Save(stream, ImageFormat.Bmp);
-            await stream.FlushAsync();
+            //await stream.FlushAsync();
             await stream.DisposeAsync();
             
             return filename;

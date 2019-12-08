@@ -295,7 +295,10 @@ namespace Where1.wstat
                         {
                             string strCmdText = "/C \"" + filename + "\"";
                             System.Diagnostics.Process.Start("CMD.exe", strCmdText);
-                        }
+                        }else{
+			    string strCmdText = "xdg-open " + filename;
+                            System.Diagnostics.Process.Start("bash", strCmdText);
+}
                         break;
                     case Operation.reexpress:
                         if (enabledOptions.Contains("zscore"))
