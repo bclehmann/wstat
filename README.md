@@ -94,7 +94,9 @@ Type `wstat cdf` for the cumulative distribution function for a normal distribut
 
 ## Linux Users
 
-This does work on Linux, however, for some features, notable graph plotting, it will not work as expected unless you compile your own version. You have been warned.
+This does work on Linux, all you have to do is find the file `wstat` in `bin/Release/netcoreapp3.0/linux-x64`, make it executable, and then run. If you need help making it executable, this should do: https://askubuntu.com/questions/229589/how-to-make-a-file-e-g-a-sh-script-executable-so-it-can-be-run-from-a-termi
+
+Please make sure you do this to the file `wstat` with no extension, not `wstat.dll` or anything like that.
 
 ## Open Source
 
