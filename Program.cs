@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using Where1.wstat.Graph;
 using Where1.wstat.Regression;
+using Where1.wstat.Distribution;
 
 namespace Where1.wstat
 {
@@ -47,11 +49,17 @@ namespace Where1.wstat
             { "csv", Output.csv },
         };
 
+        private static Dictionary<string, string> MultiSpaceFlags = new Dictionary<string, string>(){
+            { "-o", "file=" }
+        };
+
         public static void Main(string[] args)
         {
             Run(args);
         }
 
+        public static string FilePathEncode(string input) => input.Replace(" ", "*20");
+        public static string FilePathDecode(string input) => input.Replace("*20", " ");
         async static void Run(string[] args)
         {
             const string set_pattern = @"set=(.+)";
@@ -59,6 +67,8 @@ namespace Where1.wstat
             const string output_pattern = @"output=(.+)";
             const string dimension_pattern = @"dimensions=(\d+)";
             const string options_pattern = @"options=(.+)";
+            const string fileOut_pattern = @"file=([\w\/\\:~.*\d]+)";
+            const string filePathPattern = @"([\w\/\\:~\d""])+";
 
 
 
@@ -70,12 +80,21 @@ namespace Where1.wstat
             int dimensions = 1;
             List<string> enabledOptions = new List<string>();
             double? normalDistributionParameter = null;
+            string outputFilePath = "";
+            bool writeToFile = false;
+            StreamWriter outputStream = null;
+            bool? isPopulation = null;
 
 
             string[] expandedArgs = new string[args.Length];
             for (int i = 0; i < args.Length; i++)
             {
-                if (Shortcuts.ContainsKey(args[i].ToLower()))
+                if (MultiSpaceFlags.ContainsKey(args[i].ToLower()))
+                {
+                    expandedArgs[i] = MultiSpaceFlags.GetValueOrDefault(args[i].ToLower()).Trim() + args[i + 1];
+                    args[i + 1] = "";
+                }
+                else if (Shortcuts.ContainsKey(args[i].ToLower()))
                 {
                     expandedArgs[i] = Shortcuts.GetValueOrDefault(args[i].ToLower());
                 }
@@ -83,7 +102,11 @@ namespace Where1.wstat
                 {
                     expandedArgs[i] = args[i];
                 }
+
+                expandedArgs[i] = FilePathEncode(expandedArgs[i]);
+
             }
+
 
 
             foreach (string curr in expandedArgs)
@@ -168,6 +191,35 @@ namespace Where1.wstat
                         i++;
                     }
                 }
+
+                foreach (Match m in Regex.Matches(curr, fileOut_pattern, options))
+                {
+                    int i = 0;
+                    foreach (var g in m.Groups)
+                    {
+                        if (i != 0)
+                        {
+                            outputFilePath = FilePathDecode(g.ToString());
+                            writeToFile = true;
+                        }
+                        i++;
+                    }
+                }
+            }
+
+            if (enabledOptions.Contains("sample"))
+            {
+                isPopulation = false;
+            }
+            else if (enabledOptions.Contains("population"))
+            {
+                isPopulation = true;
+            }
+
+            if (writeToFile)
+            {
+                Console.WriteLine("Output redirected to: " + outputFilePath);
+                outputStream = new StreamWriter(outputFilePath);
             }
 
             if (operation == Operation.cdf)
@@ -178,7 +230,7 @@ namespace Where1.wstat
                     normalDistributionParameter = double.Parse(Console.ReadLine());
                 }
 
-                Console.WriteLine(Cdf(normalDistributionParameter.Value));
+                PrintLine(NormalDistribution.Cdf(normalDistributionParameter.Value), writeToFile, outputStream);
 
 
                 return;
@@ -192,7 +244,7 @@ namespace Where1.wstat
                     normalDistributionParameter = double.Parse(Console.ReadLine());
                 }
 
-                Console.WriteLine(InvCdf(normalDistributionParameter.Value));
+                PrintLine(NormalDistribution.InvCdf(normalDistributionParameter.Value), writeToFile, outputStream);
 
                 return;
             }
@@ -206,6 +258,15 @@ namespace Where1.wstat
                 Console.WriteLine();
             }
 
+
+            string setStringPath = FilePathDecode(setRaw.ToString());
+            setStringPath = setStringPath.Replace("\"", "");
+            if (Regex.IsMatch(setStringPath.ToString(), filePathPattern))
+            {
+                StreamReader reader = new StreamReader(setStringPath);
+                setRaw.Clear();
+                setRaw.Append(reader.ReadToEnd());
+            }
             List<string> setStringList = setRaw.Replace("(", "").Replace(")", "").ToString().Split(',').ToList();
             if (dimensions == 1)
             {
@@ -213,28 +274,31 @@ namespace Where1.wstat
                 switch (operation)
                 {
                     case Operation.list:
-                        Console.Write(set.List(output));
+                        Print(set.List(output), writeToFile, outputStream);
                         break;
                     case Operation.summary:
-                        Console.Write(set.Summarize(output));
+                        Print(set.Summarize(output), writeToFile, outputStream);
                         break;
                     case Operation.reexpress:
                         if (enabledOptions.Contains("zscore"))
                         {
-                            if (enabledOptions.Contains("population"))
+                            if (!isPopulation.HasValue)
                             {
-                                Console.Write(set.StandardizeSet(true).List(output));
+                                {
+                                    Console.WriteLine("Is your set a population? (Y/N)\n\nIf you don't know, select \"No\"");
+                                    isPopulation = Console.ReadLine().ToUpper() == "Y";
+                                }
                             }
-                            else if (enabledOptions.Contains("sample"))
+
+                            if (isPopulation.Value)
                             {
-                                Console.Write(set.StandardizeSet(false).List(output));
+                                Print(set.StandardizeSet(true).List(output), writeToFile, outputStream);
                             }
                             else
                             {
-                                Console.WriteLine("Is your set a population? (Y/N)\n\nIf you don't know, select \"No\"");
-                                bool population = Console.ReadLine().ToUpper() == "Y";
-                                Console.Write(set.StandardizeSet(population).List(output));
+                                Print(set.StandardizeSet(false).List(output), writeToFile, outputStream);
                             }
+
                         }
                         break;
                 }
@@ -266,10 +330,10 @@ namespace Where1.wstat
                 switch (operation)
                 {
                     case Operation.list:
-                        Console.Write(vectorSet.List(output));
+                        Print(vectorSet.List(output), writeToFile, outputStream);
                         break;
                     case Operation.summary:
-                        Console.Write(vectorSet.Summarize(output));
+                        Print(vectorSet.Summarize(output), writeToFile, outputStream);
                         break;
                     case Operation.plot:
                         Plot plot = new Plot(vectorSet);
@@ -278,127 +342,104 @@ namespace Where1.wstat
                         {
                             filename = await plot.Draw(RegressionLines.linear);
                             double[] coefficients = new LinearRegressionLine().Calculate(vectorSet);
-                            Console.WriteLine($"\n" +
+                            PrintLine($"\n" +
                                 $"\ty=a+bx" +
                                 $"\n\n" +
                                 $"\ta={coefficients[0]}\n" +
                                 $"\tb={coefficients[1]}" +
-                                $"\n");
+                                $"\n",
+                                writeToFile, outputStream);
                         }
                         else
                         {
                             filename = await plot.Draw();
                         }
 
-                        Console.WriteLine($"\n\tFilepath: {filename}");
+                        PrintLine($"\n\tFilepath: {filename}", writeToFile, outputStream);
                         if (RuntimeInformation.OSDescription.ToLower().Contains("windows"))
                         {
                             string strCmdText = "/C \"" + filename + "\"";
                             System.Diagnostics.Process.Start("CMD.exe", strCmdText);
-                        }else{
-			    string strCmdText = "xdg-open " + filename;
+                        }
+                        else
+                        {
+                            string strCmdText = "xdg-open " + filename;
                             System.Diagnostics.Process.Start("bash", strCmdText);
-}
+                        }
                         break;
                     case Operation.reexpress:
                         if (enabledOptions.Contains("zscore"))
                         {
-                            if (enabledOptions.Contains("population"))
+                            if (!isPopulation.HasValue)
                             {
-                                Console.Write(vectorSet.StandardizeSet(true).List(output));
+                                {
+                                    Console.WriteLine("Is your set a population? (Y/N)\n\nIf you don't know, select \"No\"");
+                                    isPopulation = Console.ReadLine().ToUpper() == "Y";
+                                }
                             }
-                            else if (enabledOptions.Contains("sample"))
+
+                            if (isPopulation.Value)
                             {
-                                Console.Write(vectorSet.StandardizeSet(false).List(output));
+                                Print(vectorSet.StandardizeSet(true).List(output), writeToFile, outputStream);
                             }
                             else
                             {
-                                Console.WriteLine("Is your set a population? (Y/N)\n\nIf you don't know, select \"No\"");
-                                bool population = Console.ReadLine().ToUpper() == "Y";
-                                Console.Write(vectorSet.StandardizeSet(population).List(output));
+                                Print(vectorSet.StandardizeSet(false).List(output), writeToFile, outputStream);
                             }
                         }
                         else if (enabledOptions.Contains("residual"))
                         {
                             if (enabledOptions.Contains("linreg"))
                             {
-                                Console.Write(vectorSet.ResidualSet(new LinearRegressionLine()).List(output));
+                                Print(vectorSet.ResidualSet(new LinearRegressionLine()).List(output), writeToFile, outputStream);
                             }
                         }
                         break;
                     case Operation.correlation:
                         if (enabledOptions.Contains("population"))
                         {
-                            Console.Write(vectorSet.Correlation(true));
+                            Print(vectorSet.Correlation(true), writeToFile, outputStream);
                         }
                         else if (enabledOptions.Contains("sample"))
                         {
-                            Console.Write(vectorSet.Correlation(false));
+                            Print(vectorSet.Correlation(false), writeToFile, outputStream);
                         }
                         else
                         {
                             Console.WriteLine("Is your set a population? (Y/N)\n\nIf you don't know, select \"No\"");
                             bool population = Console.ReadLine().ToUpper() == "Y";
-                            Console.Write(vectorSet.Correlation(population));
+                            Print(vectorSet.Correlation(population), writeToFile, outputStream);
                         }
                         break;
                 }
             }
 
-
-
-
-            //foreach (var curr in set) {
-            //    Console.WriteLine(curr);
-            //}
-
-
-        }
-
-        public static double Erf(double x)
-        {
-
-            //The definite integral from 0 to x of e^(-t^2) * dt
-            //dt is taken to be the differential of the independent variable, as x is taken
-            double erfIntegral = MathNet.Numerics.Integration.GaussLegendreRule.Integrate(t => Math.Pow(Math.E, -Math.Pow(t, 2)), 0, x, 64);
-
-
-            //The real function is 2/sqrt(Pi) * erfIntegral
-            double erfCoefficient = 2.0 / Math.Sqrt(Math.PI);
-
-            return erfCoefficient * erfIntegral;
-        }
-
-        public static double Cdf(double x)
-        {
-            //erf and cdf are related
-            //cdf= 1/2 * (1 + erf((x/sqrt(2)))
-            return 0.5 * (1 + Erf(x / Math.Sqrt(2.0)));
-        }
-
-        public static double InvCdf(double x)//This function is normally given in terms of InvErf, however that function is horrible, so we're doing it this over/under way
-        {
-            double estimate = 0;
-            double shiftBy = 1;
-            while (Math.Abs(Cdf(estimate) - x) > 0.000000001)//This precision is probably optimistic, given that the precision of the integral is, ambiguous, not to mention floating point
+            if (outputStream != null)
             {
-                double error = Math.Abs(Cdf(estimate) - x);
-                if (error > Math.Abs(Cdf(estimate - shiftBy) - x))
+                if (isPopulation.HasValue && output == Output.text)
                 {
-                    estimate -= shiftBy;
+                    outputStream.WriteLine();
+                    outputStream.WriteLine();
+                    outputStream.WriteLine($"You specified that this {(isPopulation.Value ? "was" : "was not")} a population.");
                 }
-                else if (error > Math.Abs(Cdf(estimate + shiftBy) - x))
-                {
-                    estimate += shiftBy;
-                }
-                else
-                {
-                    shiftBy /= 2.0;
-                }
+                outputStream.Close();
+                outputStream.Dispose();
             }
-
-            return estimate;
         }
 
+        private static void Print<T>(T toPrint, bool printToFileToo, StreamWriter outputStream)
+        {
+            Console.Write(toPrint);
+            if (printToFileToo)
+            {
+                outputStream.Write(toPrint);
+                outputStream.Flush();
+            }
+        }
+
+        public static void PrintLine<T>(T toPrint, bool printToFileToo, StreamWriter outputStream)
+        {
+            Print(toPrint + "\n", printToFileToo, outputStream);
+        }
     }
 }
