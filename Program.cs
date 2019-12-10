@@ -58,6 +58,8 @@ namespace Where1.wstat
             Run(args);
         }
 
+        public static string FilePathEncode(string input) => input.Replace(" ", "*20");
+        public static string FilePathDecode(string input) => input.Replace("*20", " ");
         async static void Run(string[] args)
         {
             const string set_pattern = @"set=(.+)";
@@ -65,7 +67,7 @@ namespace Where1.wstat
             const string output_pattern = @"output=(.+)";
             const string dimension_pattern = @"dimensions=(\d+)";
             const string options_pattern = @"options=(.+)";
-            const string fileOut_pattern = @"file=([\w\/\\:~.]+)";
+            const string fileOut_pattern = @"file=([\w\/\\:~.*\d]+)";
 
 
 
@@ -99,6 +101,8 @@ namespace Where1.wstat
                 {
                     expandedArgs[i] = args[i];
                 }
+
+                expandedArgs[i] = FilePathEncode(expandedArgs[i]);
 
             }
 
@@ -194,7 +198,7 @@ namespace Where1.wstat
                     {
                         if (i != 0)
                         {
-                            outputFilePath = g.ToString();
+                            outputFilePath = FilePathDecode(g.ToString());
                             writeToFile = true;
                         }
                         i++;
