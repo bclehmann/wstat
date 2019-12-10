@@ -43,6 +43,12 @@ In addition, you can also give no input and no command-line parameters: `wstat s
 
 Currently json, csv and text output are supported. Text is the default. You can specify with `wstat list json` or `wstat list text`. The full version is `wstat operation=list output=json`. The same information is given in both the list and the summary, it's just displayed differently. Please note that the only operation that supports CSV output is List.
 
+## Read/Write from file
+
+You can specify an output file with `wstat -o C:\Users\benny\Desktop\a.txt` or `wstat file=C:\Users\benny\Desktop\a.txt` The directory you point to must exist. You can read a set from an input file with `wstat set=C:\Users\benny\Desktop\a.txt` or specify the file with stdin.
+
+When a file path is specified as a commandline argument, if it has spaces, it must be in quotes.
+
 ## Multivariable Sets
 
 This supports n-dimensions, just add `dimensions=2` to your command. A shorthand in the case of 2-D data, is `2var`. If you have 3+ dimensional data, you need to use `dimensions=3`
