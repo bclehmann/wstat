@@ -68,7 +68,7 @@ namespace Where1.wstat
             const string dimension_pattern = @"dimensions=(\d+)";
             const string options_pattern = @"options=(.+)";
             const string fileOut_pattern = @"file=([\w\/\\:~.*\d]+)";
-            const string filePathPattern = @"([\w\/\\:~\d]"")+";
+            const string filePathPattern = @"([\w\/\\:~\d""])+";
 
 
 
