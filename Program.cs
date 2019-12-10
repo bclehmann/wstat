@@ -260,10 +260,7 @@ namespace Where1.wstat
 
 
             string setStringPath = FilePathDecode(setRaw.ToString());
-            if (RuntimeInformation.OSDescription.ToLower().Contains("windows"))
-            {
-                setStringPath = setStringPath.Replace("\"", "");
-            }
+            setStringPath = setStringPath.Replace("\"", "");
             if (Regex.IsMatch(setStringPath.ToString(), filePathPattern))
             {
                 StreamReader reader = new StreamReader(setStringPath);
