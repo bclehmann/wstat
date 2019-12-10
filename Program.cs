@@ -258,8 +258,14 @@ namespace Where1.wstat
                 Console.WriteLine();
             }
 
-            string setStringPath = FilePathDecode(setRaw.ToString()).Replace("\"", "");
-            if (Regex.IsMatch(setStringPath.ToString(), filePathPattern)) {
+
+            string setStringPath = FilePathDecode(setRaw.ToString());
+            if (RuntimeInformation.OSDescription.ToLower().Contains("windows"))
+            {
+                setStringPath = setStringPath.Replace("\"", "");
+            }
+            if (Regex.IsMatch(setStringPath.ToString(), filePathPattern))
+            {
                 StreamReader reader = new StreamReader(setStringPath);
                 setRaw.Clear();
                 setRaw.Append(reader.ReadToEnd());
