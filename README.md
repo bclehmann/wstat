@@ -110,6 +110,8 @@ This project is a very low priority for me, so if you decide to open some pull-r
 
 Please note, I would like to have CI sorted out on PRs, however github actions is not currently cooperating with .NET Core 3.0, so we are currently stuck without it.
 
+In addition, everything is subject to code-review
+
 ---
 ![Logo](/images/logo_full.png)
 
