@@ -68,6 +68,7 @@ namespace Where1.wstat
             const string dimension_pattern = @"dimensions=(\d+)";
             const string options_pattern = @"options=(.+)";
             const string fileOut_pattern = @"file=([\w\/\\:~.*\d]+)";
+            const string filePathPattern = @"([\w\/\\:~\d])+";
 
 
 
@@ -257,6 +258,12 @@ namespace Where1.wstat
                 Console.WriteLine();
             }
 
+            string setStringPath = FilePathDecode(setRaw.ToString()).Replace("\"", "");
+            if (Regex.IsMatch(setStringPath.ToString(), filePathPattern)) {
+                StreamReader reader = new StreamReader(setStringPath);
+                setRaw.Clear();
+                setRaw.Append(reader.ReadToEnd());
+            }
             List<string> setStringList = setRaw.Replace("(", "").Replace(")", "").ToString().Split(',').ToList();
             if (dimensions == 1)
             {
