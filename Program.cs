@@ -69,6 +69,7 @@ namespace Where1.wstat
             const string options_pattern = @"options=(.+)";
             const string fileOut_pattern = @"file=([\w\/\\:~.*\d]+)";
             const string filePathPattern = @"([\w\/\\:~\d""])+";
+            const string letterPattern= @"[a-zA-Z]";
 
 
 
@@ -261,7 +262,7 @@ namespace Where1.wstat
 
             string setStringPath = FilePathDecode(setRaw.ToString());
             setStringPath = setStringPath.Replace("\"", "");
-            if (Regex.IsMatch(setStringPath.ToString(), filePathPattern))
+            if (Regex.IsMatch(setStringPath.ToString(), filePathPattern) && Regex.IsMatch(setStringPath.ToString(), letterPattern))
             {
                 StreamReader reader = new StreamReader(setStringPath);
                 setRaw.Clear();
