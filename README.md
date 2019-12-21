@@ -61,7 +61,7 @@ For example, a set like this: `(-3,9),(-2,4),(-1,1),(0,0),(1,1),(2,4),(3,9)`
 
 Would produce a plot like this:
 
-![Plot](/demo/plot_2019-10-28___08-30-46_PM.bmp)
+![Plot](/demo/parabola.bmp)
 
 The parantheses around points are optional, I include them because I prefer the notation, especially for a demo/tutorial.
 
@@ -70,7 +70,7 @@ The parantheses around points are optional, I include them because I prefer the 
 Add a `linreg` to your plot command `wstat 2var plot linreg` and it will give you a printout as well as draw the Least Square Regression Line on the graph. `linreg` is a shorthand for `options=linreg`, if you use multiple options you can do `options=option1,linreg,option3` or you can use the shorthands together.
 
 For the set `-2,2,2,0.11134,0,0.8` I got this plot:
-![linreg Plot](/demo/plot_2019-10-28___08-28-04_PM.bmp)
+![linreg Plot](/demo/linreg.bmp)
 
 And this printout: 
 	
