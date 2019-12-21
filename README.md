@@ -110,15 +110,19 @@ For drawing plots you will need two packages: `libc6-dev` and `libgdiplus` For s
 For APT
 
 `sudo apt install libc6-dev`
+
 `sudo apt install libgdiplus`
 
 xdg-utils (Probably already installed)
+
 `sudo apt install xdg-utils`
 
 For yum
 
 `sudo yum install glibc-devel`
+
 `sudo yum install glibc-devel.i686`
+
 `sudo yum install libgdiplus`
 
 xdg-utils (Probably already installed)
