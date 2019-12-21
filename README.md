@@ -104,6 +104,36 @@ This does work on Linux, all you have to do is find the file `wstat` in `bin/Rel
 
 Please make sure you do this to the file `wstat` with no extension, not `wstat.dll` or anything like that.
 
+For drawing plots you will need two packages: `libc6-dev` and `libgdiplus` For some distributions, `xdg-utils` may not come preinstalled, and that is needed for auto-opening images.
+
+
+For APT
+
+`sudo apt install libc6-dev`
+`sudo apt install libgdiplus`
+
+xdg-utils (Probably already installed)
+`sudo apt install xdg-utils`
+
+For yum
+
+`sudo yum install glibc-devel`
+`sudo yum install glibc-devel.i686`
+`sudo yum install libgdiplus`
+
+xdg-utils (Probably already installed)
+`sudo yum install xdg-utils`
+
+## OSX Users
+
+It should work, but I have no idea how well it works, I don't have a Mac to test it on, and I am hesitant to pirate OSX and stick it in a VM. Let me know how it goes if you try it.
+
+## 32 Bit, ARM, etc
+
+I have only built x86-64 binaries, but as it is open source, anything that .NET Core will compile on should work. The reason for this, is that I cannot test on a processor that I do not have.
+
+Keep in mind, required packages may differ if you run on 32-bit x86 or on ARM.
+
 ## Open Source
 
 This project is a very low priority for me, so if you decide to open some pull-requests to add features or otherwise improve code quality I would be very thankful.
