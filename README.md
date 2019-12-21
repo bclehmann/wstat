@@ -126,6 +126,7 @@ For yum
 `sudo yum install libgdiplus`
 
 xdg-utils (Probably already installed)
+
 `sudo yum install xdg-utils`
 
 ## OSX Users
