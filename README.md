@@ -61,7 +61,7 @@ For example, a set like this: `(-3,9),(-2,4),(-1,1),(0,0),(1,1),(2,4),(3,9)`
 
 Would produce a plot like this:
 
-![Plot](/demo/plot_2019-10-28___08-30-46_PM.bmp)
+![Plot](/demo/parabola.bmp)
 
 The parantheses around points are optional, I include them because I prefer the notation, especially for a demo/tutorial.
 
@@ -70,7 +70,7 @@ The parantheses around points are optional, I include them because I prefer the 
 Add a `linreg` to your plot command `wstat 2var plot linreg` and it will give you a printout as well as draw the Least Square Regression Line on the graph. `linreg` is a shorthand for `options=linreg`, if you use multiple options you can do `options=option1,linreg,option3` or you can use the shorthands together.
 
 For the set `-2,2,2,0.11134,0,0.8` I got this plot:
-![linreg Plot](/demo/plot_2019-10-28___08-28-04_PM.bmp)
+![linreg Plot](/demo/linreg.bmp)
 
 And this printout: 
 	
@@ -103,6 +103,41 @@ Type `wstat cdf` for the cumulative distribution function for a normal distribut
 This does work on Linux, all you have to do is find the file `wstat` in `bin/Release/netcoreapp3.0/linux-x64`, make it executable, and then run. If you need help making it executable, this should do: https://askubuntu.com/questions/229589/how-to-make-a-file-e-g-a-sh-script-executable-so-it-can-be-run-from-a-termi
 
 Please make sure you do this to the file `wstat` with no extension, not `wstat.dll` or anything like that.
+
+For drawing plots you will need two packages: `libc6-dev` and `libgdiplus` For some distributions, `xdg-utils` may not come preinstalled, and that is needed for auto-opening images.
+
+
+For APT
+
+`sudo apt install libc6-dev`
+
+`sudo apt install libgdiplus`
+
+xdg-utils (Probably already installed)
+
+`sudo apt install xdg-utils`
+
+For yum
+
+`sudo yum install glibc-devel`
+
+`sudo yum install glibc-devel.i686`
+
+`sudo yum install libgdiplus`
+
+xdg-utils (Probably already installed)
+
+`sudo yum install xdg-utils`
+
+## OSX Users
+
+It should work, but I have no idea how well it works, I don't have a Mac to test it on, and I am hesitant to pirate OSX and stick it in a VM. Let me know how it goes if you try it.
+
+## 32 Bit, ARM, etc
+
+I have only built x86-64 binaries, but as it is open source, anything that .NET Core will compile on should work. The reason for this, is that I cannot test on a processor that I do not have.
+
+Keep in mind, required packages may differ if you run on 32-bit x86 or on ARM.
 
 ## Open Source
 

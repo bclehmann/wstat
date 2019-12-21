@@ -103,7 +103,7 @@ namespace Where1.wstat.Graph
             g.DrawString($"{Vectors.DataSets[0].Max:f2}", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), Justify(scale[0], Vectors.DataSets[0].Max, Axis.x), height / 2 + 10, centeredString);
 
             g.DrawString($"{-Vectors.DataSets[1].Max:f2}", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), width / 2 + 30, Justify(scale[1], -Vectors.DataSets[1].Max, Axis.y), centeredString);
-            g.DrawString($"{-Vectors.DataSets[1].Max:f2}", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), width / 2 + 30, Justify(scale[1], Vectors.DataSets[1].Max, Axis.y), centeredString);
+            g.DrawString($"{Vectors.DataSets[1].Max:f2}", new Font("Sans Serif", 12), new SolidBrush(Color.Gray), width / 2 + 30, Justify(scale[1], Vectors.DataSets[1].Max, Axis.y), centeredString);
 
             if (lockedScale)
             {
