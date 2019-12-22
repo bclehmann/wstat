@@ -8,6 +8,7 @@ using System.Text.RegularExpressions;
 using Where1.wstat.Graph;
 using Where1.wstat.Regression;
 using Where1.wstat.Distribution;
+using System.Text.Json;
 
 namespace Where1.wstat
 {
@@ -332,9 +333,10 @@ namespace Where1.wstat
                 {
                     case Operation.list:
                         Print(vectorSet.List(output), writeToFile, outputStream);
+                        Print("\n\n", writeToFile, outputStream);
                         if (enabledOptions.Contains("linreg"))
                         {
-                            PrintLine(LinRegPrintout(vectorSet), writeToFile, outputStream);
+                            PrintLine(LinRegPrintout(vectorSet, output), writeToFile, outputStream);
                         }
                         break;
                     case Operation.summary:
@@ -346,7 +348,7 @@ namespace Where1.wstat
                         if (enabledOptions.Contains("linreg"))
                         {
                             filename = await plot.Draw(RegressionLines.linear);
-                            PrintLine(LinRegPrintout(vectorSet), writeToFile, outputStream);
+                            PrintLine(LinRegPrintout(vectorSet, output), writeToFile, outputStream);
                         }
                         else
                         {
@@ -441,22 +443,48 @@ namespace Where1.wstat
             Print(toPrint + "\n", printToFileToo, outputStream);
         }
 
-        public static string LinRegPrintout(VectorSet vset)
+        public static string LinRegPrintout(VectorSet vset, Output outputFormat = Output.text)
         {
             IRegressionLine regline = new LinearRegressionLine();
             double[] coefficients = regline.Calculate(vset);
             double r_squared = regline.CoefficientOfDetermination(vset);
 
-            string returnVal = $"\n" +
-                $"\ty=b0 + b1x1 + b2x2 + ... + bnxn" +
-                $"\n\n";
-            for(int i=0; i<coefficients.Length; i++) {
-                returnVal += $"\tb{i} = {coefficients[i]}\n";
+            switch (outputFormat)
+            {
+                case Output.text:
+                    string returnVal = $"\n" +
+                        $"\ty=b0 + b1x1 + b2x2 + ... + bnxn" +
+                        $"\n\n";
+
+                    for (int i = 0; i < coefficients.Length; i++)
+                    {
+                        returnVal += $"\tb{i} = {coefficients[i]}\n";
+                    }
+
+                    returnVal += $"\n\n\tCoefficient of Determination (r^2) = {r_squared}";
+
+                    return returnVal;
+                    break;
+                case Output.json:
+                    return JsonSerializer.Serialize(new {
+                        Coefficients = coefficients,
+                        CoefficientOfDetermination = r_squared
+                    });
+                    break;
+                case Output.csv:
+                    string output = "";
+                    for (int i = 0; i < coefficients.Length; i++) {
+                        output += coefficients[i];
+                        if (i != coefficients.Length - 1) {
+                            output += ",";
+                        }
+                    }
+                    return output;
+                    break;
+                default:
+                    throw new NotSupportedException("This function does not support the specified output format");
             }
 
-            returnVal += $"\n\n\tCoefficient of Determination (r^2) = {r_squared}";
-
-            return returnVal;
         }
     }
 }

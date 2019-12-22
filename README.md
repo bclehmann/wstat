@@ -89,6 +89,8 @@ And this printout:
 
         Filepath: C:\Users\benny\source\repos\stat\statistics-cli/plots/plot_2019-10-28___08-35-24_PM.bmp
 		
+Note that this printout is also supported for JSON and CSV output. CSV output does not contain the Coefficient of Determination.
+		
 ## Reexpression
 
 Add a `reexpress`, and then choose either `zscore` or `residual` as an option. `zscore` and `residual` works on N-Dimensional sets. `residual` also requires you specify the regression line to use.
