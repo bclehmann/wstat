@@ -78,13 +78,18 @@ For the set `-2,2,2,0.11134,0,0.8` I got this plot:
 
 And this printout: 
 	
-	    y=a+bx
-		
-        a=0.9704466666666667
-        b=-0.472165
+	    y=b0 + b1x1 + b2x2 + ... + bnxn
+
+        b0 = 0.9704466666666667
+        b1 = -0.472165
+
+
+        Coefficient of Determination (r^2) = 0.9761489873568633
 
 
         Filepath: C:\Users\benny\source\repos\stat\statistics-cli/plots/plot_2019-10-28___08-35-24_PM.bmp
+		
+Note that this printout is also supported for JSON and CSV output. CSV output does not contain the Coefficient of Determination.
 		
 ## Reexpression
 
