@@ -59,6 +59,7 @@ namespace Where1.wstat
             Run(args);
         }
 
+        //These are two avoid filepaths with spaces being split up into multiple arguments
         public static string FilePathEncode(string input) => input.Replace(" ", "*20");
         public static string FilePathDecode(string input) => input.Replace("*20", " ");
         async static void Run(string[] args)
@@ -220,7 +221,7 @@ namespace Where1.wstat
 
             if (writeToFile)
             {
-                Console.WriteLine("Output redirected to: " + outputFilePath);
+                Console.WriteLine("Output redirected to: " + outputFilePath); //This is intentially printed to console ONLY (keeps JSON/CSV output files parsable)
                 outputStream = new StreamWriter(outputFilePath);
             }
 
@@ -331,12 +332,15 @@ namespace Where1.wstat
 
                 switch (operation)
                 {
-                    case Operation.list:
-                        Print(vectorSet.List(output), writeToFile, outputStream);
+                    case Operation.list: //Default
                         Print("\n\n", writeToFile, outputStream);
                         if (enabledOptions.Contains("linreg"))
                         {
                             PrintLine(LinRegPrintout(vectorSet, output), writeToFile, outputStream);
+                        }
+                        else
+                        {
+                            Print(vectorSet.List(output), writeToFile, outputStream);
                         }
                         break;
                     case Operation.summary:
@@ -407,8 +411,8 @@ namespace Where1.wstat
                         else
                         {
                             Console.WriteLine("Is your set a population? (Y/N)\n\nIf you don't know, select \"No\"");
-                            bool population = Console.ReadLine().ToUpper() == "Y";
-                            Print(vectorSet.Correlation(population), writeToFile, outputStream);
+                            isPopulation = Console.ReadLine().ToUpper() == "Y";
+                            Print(vectorSet.Correlation(isPopulation.Value), writeToFile, outputStream);
                         }
 
                         break;
@@ -466,16 +470,19 @@ namespace Where1.wstat
                     return returnVal;
                     break;
                 case Output.json:
-                    return JsonSerializer.Serialize(new {
+                    return JsonSerializer.Serialize(new
+                    {
                         Coefficients = coefficients,
                         CoefficientOfDetermination = r_squared
                     });
                     break;
                 case Output.csv:
                     string output = "";
-                    for (int i = 0; i < coefficients.Length; i++) {
+                    for (int i = 0; i < coefficients.Length; i++)
+                    {
                         output += coefficients[i];
-                        if (i != coefficients.Length - 1) {
+                        if (i != coefficients.Length - 1)
+                        {
                             output += ",";
                         }
                     }
