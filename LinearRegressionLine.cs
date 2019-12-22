@@ -1,9 +1,6 @@
 ﻿using MathNet.Numerics;
-using MathNet.Numerics.LinearRegression;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Where1.wstat.Regression
 {

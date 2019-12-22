@@ -2,7 +2,7 @@
 
 # Statistics-CLI
 
-A *currently* very basic CLI for some stats stuff. It can list and it can summarize a numerical dataset. For 2D data it may also plot it.
+A *currently* very basic CLI for some stats stuff. It can list and it can summarize a numerical dataset. For 2D data it may also plot it. Keep in mind, that regardless of the number of dimensions, the last item in an ordered pair is taken to be the coordinate of the **RESPONDING** variable.
 
     wstat set=1,2,3 list
 
