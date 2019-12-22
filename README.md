@@ -69,6 +69,8 @@ The parantheses around points are optional, I include them because I prefer the 
 
 Add a `linreg` to your plot command `wstat 2var plot linreg` and it will give you a printout as well as draw the Least Square Regression Line on the graph. `linreg` is a shorthand for `options=linreg`, if you use multiple options you can do `options=option1,linreg,option3` or you can use the shorthands together.
 
+You can also use `linreg` alone, such as `wstat 2var linreg`, which will do the same thing but without making a fancy picture. This is ideal for CLI-only OSes like Ubuntu Server, or when you quite frankly don't care about the pretty pictures.
+
 For the set `-2,2,2,0.11134,0,0.8` I got this plot:
 ![linreg Plot](/demo/linreg.bmp)
 
