@@ -69,7 +69,7 @@ namespace Where1.wstat
             const string options_pattern = @"options=(.+)";
             const string fileOut_pattern = @"file=([\w\/\\:~.*\d]+)";
             const string filePathPattern = @"([\w\/\\:~\d""])+";
-            const string letterPattern= @"[a-zA-Z]";
+            const string letterPattern = @"[a-zA-Z]";
 
 
 
@@ -332,6 +332,11 @@ namespace Where1.wstat
                 {
                     case Operation.list:
                         Print(vectorSet.List(output), writeToFile, outputStream);
+                        if (enabledOptions.Contains("linreg"))
+                        {
+                            double[] coefficients = new LinearRegressionLine().Calculate(vectorSet);
+                            PrintLine(LinRegPrintout(coefficients), writeToFile, outputStream);
+                        }
                         break;
                     case Operation.summary:
                         Print(vectorSet.Summarize(output), writeToFile, outputStream);
@@ -343,13 +348,7 @@ namespace Where1.wstat
                         {
                             filename = await plot.Draw(RegressionLines.linear);
                             double[] coefficients = new LinearRegressionLine().Calculate(vectorSet);
-                            PrintLine($"\n" +
-                                $"\ty=a+bx" +
-                                $"\n\n" +
-                                $"\ta={coefficients[0]}\n" +
-                                $"\tb={coefficients[1]}" +
-                                $"\n",
-                                writeToFile, outputStream);
+                            PrintLine(LinRegPrintout(coefficients), writeToFile, outputStream);
                         }
                         else
                         {
@@ -441,6 +440,19 @@ namespace Where1.wstat
         public static void PrintLine<T>(T toPrint, bool printToFileToo, StreamWriter outputStream)
         {
             Print(toPrint + "\n", printToFileToo, outputStream);
+        }
+
+        public static string LinRegPrintout(double[] coefficients)
+        {
+            if (coefficients.Length != 2) {
+                throw new NotSupportedException("Only 2-D linreg is supported");
+            }
+            return $"\n" +
+                $"\ty=a+bx" +
+                $"\n\n" +
+                $"\ta={coefficients[0]}\n" +
+                $"\tb={coefficients[1]}" +
+                $"\n";
         }
     }
 }
