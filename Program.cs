@@ -444,15 +444,14 @@ namespace Where1.wstat
 
         public static string LinRegPrintout(double[] coefficients)
         {
-            if (coefficients.Length != 2) {
-                throw new NotSupportedException("Only 2-D linreg is supported");
+            string returnVal = $"\n" +
+                $"\ty=b0 + b1x1 + b2x2 + ... + bnxn" +
+                $"\n\n";
+            for(int i=0; i<coefficients.Length; i++) {
+                returnVal += $"\tb{i} = {coefficients[i]}\n";
             }
-            return $"\n" +
-                $"\ty=a+bx" +
-                $"\n\n" +
-                $"\ta={coefficients[0]}\n" +
-                $"\tb={coefficients[1]}" +
-                $"\n";
+
+            return returnVal;
         }
     }
 }

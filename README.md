@@ -2,7 +2,7 @@
 
 # Statistics-CLI
 
-A *currently* very basic CLI for some stats stuff. It can list and it can summarize a numerical dataset. For 2D data it may also plot it.
+A *currently* very basic CLI for some stats stuff. It can list and it can summarize a numerical dataset. For 2D data it may also plot it. Keep in mind, that regardless of the number of dimensions, the last item in an ordered pair is taken to be the coordinate of the **RESPONDING** variable.
 
     wstat set=1,2,3 list
 
@@ -67,9 +67,11 @@ The parantheses around points are optional, I include them because I prefer the 
 
 ## Linear Regression
 
+As of Alpha 7.0.0, linear regression is supported on multidimensional (2+ Dimensioned) sets. Just use `wstat dimensions=3 linreg` for 3 or more dimensions.
+
 Add a `linreg` to your plot command `wstat 2var plot linreg` and it will give you a printout as well as draw the Least Square Regression Line on the graph. `linreg` is a shorthand for `options=linreg`, if you use multiple options you can do `options=option1,linreg,option3` or you can use the shorthands together.
 
-You can also use `linreg` alone, such as `wstat 2var linreg`, which will do the same thing but without making a fancy picture. This is ideal for CLI-only OSes like Ubuntu Server, or when you quite frankly don't care about the pretty pictures.
+You can also use `linreg` alone, such as `wstat 2var linreg`, which will do the same thing but without making a fancy picture. This is ideal for CLI-only OSes like Ubuntu Server, or when you quite frankly don't care about the pretty pictures. It is also required for 3 or higher dimensions, as you might imagine it is difficult to display a 77-Dimensional plot.
 
 For the set `-2,2,2,0.11134,0,0.8` I got this plot:
 ![linreg Plot](/demo/linreg.bmp)
@@ -86,7 +88,7 @@ And this printout:
 		
 ## Reexpression
 
-Add a `reexpress`, and then choose either `zscore` or `residual` as an option. `zscore` works on N-Dimensional sets, `residual` requires a 2-Dimensional set. `residual` also requires you specify the regression line to use.
+Add a `reexpress`, and then choose either `zscore` or `residual` as an option. `zscore` and `residual` works on N-Dimensional sets. `residual` also requires you specify the regression line to use.
 
 `wstat reexpress zscore` will standardize a 1-Dimensional set.
 
@@ -94,7 +96,9 @@ Add a `reexpress`, and then choose either `zscore` or `residual` as an option. `
 
 `wstat reexpress zscore dimensions=<n>` for n dimensions.
 
-`wstat reexpress residual 2var linreg` will print the residual set for a linear regression line in two dimensions.
+`wstat reexpress residual 2var linreg` will print the residual set for a linear regression line in 2 dimensions.
+
+`wstat reexpress residual dimensions=<n> linreg` will print the residual set for a linear regression line in n dimensions (Since Alpha 7.0.0)
 
 ## Normal distribution
 
