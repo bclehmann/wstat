@@ -63,6 +63,24 @@ namespace Where1.wstat.Regression
             }
         }
 
+        public double CoefficientOfDetermination(VectorSet vset)
+        {
+            double SS_total = 0;
+            double SS_residual = 0;
+
+            VectorSet residSet = vset.ResidualSet(this);
+            
+
+            for(int i=0; i< vset.Vectors.Count; i++) {
+                //Sum of (yi - ̅y̅)^2
+                SS_total += Math.Pow((vset.Vectors[i][vset.Dimensions - 1] - vset.DataSets[vset.Dimensions - 1].Mean), 2);
+
+                SS_residual += Math.Pow((residSet.Vectors[i][vset.Dimensions - 1]), 2);
+            }
+
+            return 1 - (SS_residual / SS_total);
+        }
+
         public double Residual(VectorSet vset, double[] vector)
         {
             double[] coefficients = Calculate(vset);

@@ -334,8 +334,7 @@ namespace Where1.wstat
                         Print(vectorSet.List(output), writeToFile, outputStream);
                         if (enabledOptions.Contains("linreg"))
                         {
-                            double[] coefficients = new LinearRegressionLine().Calculate(vectorSet);
-                            PrintLine(LinRegPrintout(coefficients), writeToFile, outputStream);
+                            PrintLine(LinRegPrintout(vectorSet), writeToFile, outputStream);
                         }
                         break;
                     case Operation.summary:
@@ -347,8 +346,7 @@ namespace Where1.wstat
                         if (enabledOptions.Contains("linreg"))
                         {
                             filename = await plot.Draw(RegressionLines.linear);
-                            double[] coefficients = new LinearRegressionLine().Calculate(vectorSet);
-                            PrintLine(LinRegPrintout(coefficients), writeToFile, outputStream);
+                            PrintLine(LinRegPrintout(vectorSet), writeToFile, outputStream);
                         }
                         else
                         {
@@ -410,6 +408,7 @@ namespace Where1.wstat
                             bool population = Console.ReadLine().ToUpper() == "Y";
                             Print(vectorSet.Correlation(population), writeToFile, outputStream);
                         }
+
                         break;
                 }
             }
@@ -442,14 +441,20 @@ namespace Where1.wstat
             Print(toPrint + "\n", printToFileToo, outputStream);
         }
 
-        public static string LinRegPrintout(double[] coefficients)
+        public static string LinRegPrintout(VectorSet vset)
         {
+            IRegressionLine regline = new LinearRegressionLine();
+            double[] coefficients = regline.Calculate(vset);
+            double r_squared = regline.CoefficientOfDetermination(vset);
+
             string returnVal = $"\n" +
                 $"\ty=b0 + b1x1 + b2x2 + ... + bnxn" +
                 $"\n\n";
             for(int i=0; i<coefficients.Length; i++) {
                 returnVal += $"\tb{i} = {coefficients[i]}\n";
             }
+
+            returnVal += $"\n\n\tCoefficient of Determination (r^2) = {r_squared}";
 
             return returnVal;
         }
