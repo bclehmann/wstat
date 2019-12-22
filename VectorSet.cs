@@ -125,19 +125,20 @@ namespace Where1.wstat
 
         public VectorSet ResidualSet(IRegressionLine regline)
         {
-            if (Dimensions != 2)
-            {
-                throw new NotSupportedException("This is a 2D only feature");
-            }
-
             List<double> residList = new List<double>(Length);
             foreach (var curr in Vectors)
             {
                 residList.Add(regline.Residual(this, curr.ToArray()));
             }
+            DataSet[] set = new DataSet[Dimensions];
 
-            DataSet ySet = new DataSet(residList);
-            return new VectorSet(DataSets[0], ySet);
+            for(int i=0; i< set.Length - 1; i++){
+                set[i] = DataSets[i];
+            }
+
+
+            set[set.Length - 1] = new DataSet(residList);
+            return new VectorSet(set);
 
         }
 
