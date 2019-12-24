@@ -512,6 +512,9 @@ namespace Where1.wstat
 			int numberOfColours = Enum.GetNames(typeof(ConsoleColor)).Length;
 			do
 			{
+				if (i > 400) {
+					break;
+				}
 				Console.ForegroundColor = (ConsoleColor)(i % numberOfColours);
 				Console.Write(spinChar[i % spinChar.Length]);
 				if (i % 8 == 0)
