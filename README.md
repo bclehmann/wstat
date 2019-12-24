@@ -20,11 +20,15 @@ You can also use scientific notation in your set, for example `wstat set=1.1e-2,
 
 Lists are cool and all, but at the end of the day, what you care about is probably more down here. `wstat set=1,2,3 summary` will print something like this:
 
-	Min             Q1              Med             Q3              Max
-	1.000000000     1.000000000     2.000000000     3.000000000     3.000000000
+        These are all rounded values. If you need more precision, use JSON output
 
-    Mean            Std. Dev. (s)   Std. Dev. (σ)
-    2.000000000     1.000000000     0.816496581
+        Min               Q1                Med               Q3                Max
+        1.000000000000    1.000000000000    2.000000000000    3.000000000000    3.000000000000
+
+        N (Set Size)      Mean              Std. Dev. (s)     Std. Dev. (σ)
+        3                 2.000000000000    1.000000000000    0.816496580928
+
+        Possible Outliers:
     
 This works just as well in N-Dimensional sets.
 ## Outlier Detection
