@@ -14,7 +14,7 @@ namespace Where1.wstat
 {
     class Program
     {
-        private static Dictionary<string, string> Shortcuts = new Dictionary<string, string>(){
+        private static readonly Dictionary<string, string> Shortcuts = new Dictionary<string, string>(){
             { "list", "operation=list" },
             { "summary", "operation=summary" },
             { "json", "output=json" },
@@ -34,7 +34,7 @@ namespace Where1.wstat
             { "invcdf", "operation=invcdf"},
         };
 
-        private static Dictionary<string, Operation> OperationDictionary = new Dictionary<string, Operation>() {
+        private static readonly Dictionary<string, Operation> OperationDictionary = new Dictionary<string, Operation>() {
             { "summary", Operation.summary },
             { "list", Operation.list },
             { "plot", Operation.plot },
@@ -44,13 +44,13 @@ namespace Where1.wstat
             { "invcdf", Operation.invCdf},
         };
 
-        private static Dictionary<string, Output> OutputDictionary = new Dictionary<string, Output>() {
+        private static readonly Dictionary<string, Output> OutputDictionary = new Dictionary<string, Output>() {
             { "text", Output.text },
             { "json", Output.json },
             { "csv", Output.csv },
         };
 
-        private static Dictionary<string, string> MultiSpaceFlags = new Dictionary<string, string>(){
+        private static readonly Dictionary<string, string> MultiSpaceFlags = new Dictionary<string, string>(){
             { "-o", "file=" }
         };
 
@@ -59,7 +59,7 @@ namespace Where1.wstat
             Run(args);
         }
 
-        //These are two avoid filepaths with spaces being split up into multiple arguments
+        //These two are to avoid filepaths with spaces being split up into multiple arguments
         public static string FilePathEncode(string input) => input.Replace(" ", "*20");
         public static string FilePathDecode(string input) => input.Replace("*20", " ");
         async static void Run(string[] args)
@@ -70,8 +70,10 @@ namespace Where1.wstat
             const string dimension_pattern = @"dimensions=(\d+)";
             const string options_pattern = @"options=(.+)";
             const string fileOut_pattern = @"file=([\w\/\\:~.*\d]+)";
-            const string filePathPattern = @"([\w\/\\:~\d""])+";
+            const string filePathPattern = @"([\w\/\\:~\d"".])+";
             const string letterPattern = @"[a-zA-Z]";
+            const string scientificNotationPattern = @"(-?\d*.?\d+)[eE](-?\d)";
+            const string listScientificNotationPattern = "((" + scientificNotationPattern + "),?)+";//Yeah, I hate it too
 
 
 
@@ -264,12 +266,15 @@ namespace Where1.wstat
 
             string setStringPath = FilePathDecode(setRaw.ToString());
             setStringPath = setStringPath.Replace("\"", "");
-            if (Regex.IsMatch(setStringPath.ToString(), filePathPattern) && Regex.IsMatch(setStringPath.ToString(), letterPattern))
+            //If it is a valid path, it contains letters, and it contains letters for a reason other than it being in scientific notation
+            if (Regex.IsMatch(setStringPath.ToString(), filePathPattern) && Regex.IsMatch(setStringPath.ToString(), letterPattern) && !Regex.IsMatch(setStringPath.ToString(), listScientificNotationPattern))
             {
                 StreamReader reader = new StreamReader(setStringPath);
                 setRaw.Clear();
                 setRaw.Append(reader.ReadToEnd());
             }
+            //double.Parse(s) actually can handle scientific notation, so my work here is actually done
+            
             List<string> setStringList = setRaw.Replace("(", "").Replace(")", "").ToString().Split(',').ToList();
             if (dimensions == 1)
             {

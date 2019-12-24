@@ -99,7 +99,7 @@ namespace Where1.wstat
 
                     for (int i = 0; i < DataSets.Length; i++)
                     {
-                        output.Append($"\nDimension {i}:\n\n{DataSets[i].Summarize(Output.text)}\n\n\n");
+                        output.Append($"\nDimension {i + 1} ({DataSets.Length} total):\n\n{DataSets[i].Summarize(Output.text)}\n\n\n");
                     }
                     return output.ToString();
                 case Output.json:

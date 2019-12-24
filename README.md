@@ -13,8 +13,9 @@ Will print something like this
     2.000000000
     3.000000000
 
-You can also do `wstat set=1,2,3 operation=list` if you're not a fan of the shorthand. The command line arguments can go in any order. For example `wstat list set=1,2,3` is equally valid. In addition, `list` is the default opperation, so `wstat set=1,2,3` is enough. If you specify your set in one of the additional ways below, you can get away with just `wstat`
+You can also do `wstat set=1,2,3 operation=list` if you're not a fan of the shorthand. The command line arguments can go in any order. For example `wstat list set=1,2,3` is equally valid. In addition, `list` is the default opperation, so `wstat set=1,2,3` is enough.
 
+You can also use scientific notation in your set, for example `wstat set=1.1e-2,1.0e-2,0.9` would work fine. You can use a capital or lower-case "E".
 ## Summarizing a Dataset
 
 Lists are cool and all, but at the end of the day, what you care about is probably more down here. `wstat set=1,2,3 summary` will print something like this:
@@ -25,6 +26,7 @@ Lists are cool and all, but at the end of the day, what you care about is probab
     Mean            Std. Dev. (s)   Std. Dev. (σ)
     2.000000000     1.000000000     0.816496581
     
+This works just as well in N-Dimensional sets.
 ## Outlier Detection
 
 You can also use this `summary` command to indicate potential outliers. They will be right under your normal summary.

@@ -34,7 +34,7 @@ namespace Where1.wstat
                     StringBuilder outputText = new StringBuilder();
                     foreach (double curr in tempSet)
                     {
-                        outputText.Append($"\t{curr:f9}\n");
+                        outputText.Append($"\t{curr}\n");
                     }
                     return outputText.ToString();
                     break;
@@ -45,7 +45,7 @@ namespace Where1.wstat
                     StringBuilder outputCsv = new StringBuilder();
                     foreach (double curr in tempSet)
                     {
-                        outputCsv.Append($"{curr:f9},");
+                        outputCsv.Append($"{curr},");
                     }
                     return outputCsv.Remove(outputCsv.Length - 1, 1).ToString();
                     break;
@@ -61,12 +61,14 @@ namespace Where1.wstat
             switch (outputFormat)
             {
                 case Output.text:
-                    return $"\tMin\t\tQ1\t\tMed\t\tQ3\t\tMax" +
-                         $"\n\t{Min:f9}\t{Q1:f9}\t{Med:f9}\t{Q3:f9}\t{Max:f9}\n\n" +
-                         $"\tMean\t\tStd. Dev. (s)\tStd. Dev. (σ)\n" +
-                         $"\t{this.Mean:f9}\t{this.SampleStandardDeviation:f9}\t{this.PopulationStandardDeviation:f9}" +
+                    const int cellWidth = -18;//The sign determines left or right padding
+                    return $"\tThese are all rounded values. If you need more precision, use JSON output\n\n" +
+                         $"\t{"Min", cellWidth}{"Q1", cellWidth}{"Med", cellWidth}{"Q3", cellWidth}{"Max", cellWidth}" +
+                         $"\n\t{Min, cellWidth:f12}{Q1, cellWidth:f12}{Med, cellWidth:f12}{Q3, cellWidth:f12}{Max, cellWidth:f12}\n\n" +
+                         $"\t{"N (Set Size)", cellWidth}{"Mean", cellWidth}{"Std. Dev. (s)", cellWidth}{"Std. Dev. (σ)", cellWidth}\n" +
+                         $"\t{this.Length, cellWidth}{this.Mean, cellWidth:f12}{this.SampleStandardDeviation, cellWidth:f12}{this.PopulationStandardDeviation, cellWidth:f12}" +
                          $"\n\n" +
-                         $"Possible Outliers:\n" +
+                         $"\tPossible Outliers:\n" +
                          $"{new DataSet(this.PossibleOutliers).List()}";
                     break;
                 case Output.json:
