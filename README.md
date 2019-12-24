@@ -115,6 +115,10 @@ Add a `reexpress`, and then choose either `zscore` or `residual` as an option. `
 
 Type `wstat cdf` for the cumulative distribution function for a normal distribution. Type `wstat invCdf` for the inverse.
 
+## Quantiles
+
+Type `wstat quantile` to split the set into quantiles. Choose the rank of the quantile with `rank=<n>` default rank is 100 (percentiles)
+
 ## Linux Users
 
 This does work on Linux, all you have to do is find the file `wstat` in `bin/Release/netcoreapp3.0/linux-x64`, make it executable, and then run. If you need help making it executable, this should do: https://askubuntu.com/questions/229589/how-to-make-a-file-e-g-a-sh-script-executable-so-it-can-be-run-from-a-termi
@@ -148,7 +152,7 @@ xdg-utils (Probably already installed)
 
 ## OSX Users
 
-It should work, but I have no idea how well it works, I don't have a Mac to test it on, and I am hesitant to pirate OSX and stick it in a VM. Let me know how it goes if you try it.
+It should work, but I have no idea how well it will work, I don't have a Mac to test it on, and I am hesitant to pirate OSX and stick it in a VM. Let me know how it goes if you try it.
 
 ## 32 Bit, ARM, etc
 

@@ -8,6 +8,7 @@
         reexpress,
         correlation,
         cdf,
-        invCdf
+        invCdf,
+        quantile
     };
 }
