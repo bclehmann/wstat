@@ -117,7 +117,7 @@ Type `wstat cdf` for the cumulative distribution function for a normal distribut
 
 ## Quantiles
 
-Type `wstat quantile` to split the set into quantiles. Choose the rank of the quantile with `rank=<n>` default rank is 100 (percentiles)
+Type `wstat quantile` to split the set into quantiles. Choose the rank of the quantile with `rank=<n>`. Default rank is 100 (percentiles)
 
 ## Linux Users
 
