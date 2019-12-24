@@ -13,18 +13,24 @@ Will print something like this
     2.000000000
     3.000000000
 
-You can also do `wstat set=1,2,3 operation=list` if you're not a fan of the shorthand. The command line arguments can go in any order. For example `wstat list set=1,2,3` is equally valid. In addition, `list` is the default opperation, so `wstat set=1,2,3` is enough. If you specify your set in one of the additional ways below, you can get away with just `wstat`
+You can also do `wstat set=1,2,3 operation=list` if you're not a fan of the shorthand. The command line arguments can go in any order. For example `wstat list set=1,2,3` is equally valid. In addition, `list` is the default opperation, so `wstat set=1,2,3` is enough.
 
+You can also use scientific notation in your set, for example `wstat set=1.1e-2,1.0e-2,0.9` would work fine. You can use a capital or lower-case "E".
 ## Summarizing a Dataset
 
 Lists are cool and all, but at the end of the day, what you care about is probably more down here. `wstat set=1,2,3 summary` will print something like this:
 
-	Min             Q1              Med             Q3              Max
-	1.000000000     1.000000000     2.000000000     3.000000000     3.000000000
+        These are all rounded values. If you need more precision, use JSON output
 
-    Mean            Std. Dev. (s)   Std. Dev. (σ)
-    2.000000000     1.000000000     0.816496581
+        Min               Q1                Med               Q3                Max
+        1.000000000000    1.000000000000    2.000000000000    3.000000000000    3.000000000000
+
+        N (Set Size)      Mean              Std. Dev. (s)     Std. Dev. (σ)
+        3                 2.000000000000    1.000000000000    0.816496580928
+
+        Possible Outliers:
     
+This works just as well in N-Dimensional sets.
 ## Outlier Detection
 
 You can also use this `summary` command to indicate potential outliers. They will be right under your normal summary.
@@ -109,6 +115,10 @@ Add a `reexpress`, and then choose either `zscore` or `residual` as an option. `
 
 Type `wstat cdf` for the cumulative distribution function for a normal distribution. Type `wstat invCdf` for the inverse.
 
+## Quantiles
+
+Type `wstat quantile` to split the set into quantiles. Choose the rank of the quantile with `rank=<n>` default rank is 100 (percentiles)
+
 ## Linux Users
 
 This does work on Linux, all you have to do is find the file `wstat` in `bin/Release/netcoreapp3.0/linux-x64`, make it executable, and then run. If you need help making it executable, this should do: https://askubuntu.com/questions/229589/how-to-make-a-file-e-g-a-sh-script-executable-so-it-can-be-run-from-a-termi
@@ -142,7 +152,7 @@ xdg-utils (Probably already installed)
 
 ## OSX Users
 
-It should work, but I have no idea how well it works, I don't have a Mac to test it on, and I am hesitant to pirate OSX and stick it in a VM. Let me know how it goes if you try it.
+It should work, but I have no idea how well it will work, I don't have a Mac to test it on, and I am hesitant to pirate OSX and stick it in a VM. Let me know how it goes if you try it.
 
 ## 32 Bit, ARM, etc
 
