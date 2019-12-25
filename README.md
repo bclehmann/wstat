@@ -168,6 +168,10 @@ Please note, I would like to have CI sorted out on PRs, however github actions i
 
 In addition, everything is subject to code-review
 
+## Licenses
+
+Licenses of all dependencies are included in `/Dependency Licenses/`, any derivative works of this project are to comply with those licenses in addition to the license of this project which is included in `/LICENSE`
+
 ---
 ![Logo](/images/logo_full.png)
 
