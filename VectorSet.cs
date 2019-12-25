@@ -39,6 +39,29 @@ namespace Where1.wstat
 			}
 		}
 
+		public static VectorSet CreateVectorSetFromList(List<double> unwoundSet, int dimensions)
+		{
+			List<double>[] dimensionSets = new List<double>[dimensions];
+			DataSet[] dimensionDataSet = new DataSet[dimensions];
+
+			for (int i = 0; i < dimensions; i++)
+			{
+				dimensionSets[i] = new List<double>();
+			}
+
+			for (int i = 0; i < unwoundSet.Count; i++)
+			{
+				dimensionSets[i % dimensions].Add(unwoundSet[i]);
+			}
+
+			for (int i = 0; i < dimensions; i++)
+			{
+				dimensionDataSet[i] = new DataSet(dimensionSets[i]);
+			}
+
+			return new VectorSet(dimensionDataSet);
+		}
+
 		public string List(Output outputFormat)
 		{
 

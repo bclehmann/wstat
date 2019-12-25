@@ -51,16 +51,12 @@ namespace Where1.wstat.Graph
             Bitmap bmp = new Bitmap(width, height);
             Graphics g = Graphics.FromImage(bmp);
 
-
             TypeConverter converter = new TypeConverter();
             Color lightGrey = ColorTranslator.FromHtml("#E0E0E0");
-
-
 
             StringFormat centeredString = new StringFormat();
             centeredString.Alignment = StringAlignment.Center;
             centeredString.LineAlignment = StringAlignment.Center;
-
 
             g.FillRectangle(new SolidBrush(Color.White), 20, 20, width - 40, height - 40);
 
@@ -72,9 +68,7 @@ namespace Where1.wstat.Graph
                 (height - 100) / (2 * Vectors.DataSets[1].Max)
             };
 
-
             double[] scale = new double[Vectors.Dimensions];
-
 
             double min = originalScale[0];
             double max = originalScale[0];
@@ -132,11 +126,8 @@ namespace Where1.wstat.Graph
             {
                 int x = Justify(scale[0], curr[0], Axis.x);
                 int y = Justify(scale[1], curr[1], Axis.y);
-
                 int r = 4;
                 g.FillEllipse(new SolidBrush(Color.Black), x - r / 2, y - r / 2, r, r);
-
-                //Console.WriteLine($"{x},{y}");
             }
 
             if (regline == RegressionLines.linear)
@@ -169,7 +160,6 @@ namespace Where1.wstat.Graph
             string filename = $"{Directory.GetCurrentDirectory()}/plots/plot_{ DateTime.Now.ToShortDateString() }___{ DateTime.Now.ToLongTimeString().Replace(':', '-').Replace(' ', '_')}.bmp";
             FileStream stream = new FileStream(filename, FileMode.Create);
             bmp.Save(stream, ImageFormat.Bmp);
-            //await stream.FlushAsync();
             await stream.DisposeAsync();
             
             return filename;
