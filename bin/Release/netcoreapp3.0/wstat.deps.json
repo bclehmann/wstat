@@ -10,7 +10,6 @@
         "dependencies": {
           "MathNet.Numerics": "4.9.0",
           "Microsoft.Windows.Compatibility": "3.1.0",
-          "Newtonsoft.Json": "12.0.2",
           "System.Drawing.Common": "4.7.0"
         },
         "runtime": {
@@ -136,14 +135,6 @@
           "System.ServiceProcess.ServiceController": "4.7.0",
           "System.Text.Encoding.CodePages": "4.7.0",
           "System.Threading.AccessControl": "4.7.0"
-        }
-      },
-      "Newtonsoft.Json/12.0.2": {
-        "runtime": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {
-            "assemblyVersion": "12.0.0.0",
-            "fileVersion": "12.0.2.23222"
-          }
         }
       },
       "runtime.linux-arm.runtime.native.System.IO.Ports/4.7.0": {
@@ -953,13 +944,6 @@
       "sha512": "sha512-8rPxICe6kb6Ubi/MDvVfwJfv20iZ1dqb9ipT9Fm+3qdwLPtWN/6hmEjC7s38AagZoIEWxfxL8sVqTw+BgXjOAg==",
       "path": "microsoft.windows.compatibility/3.1.0",
       "hashPath": "microsoft.windows.compatibility.3.1.0.nupkg.sha512"
-    },
-    "Newtonsoft.Json/12.0.2": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-rTK0s2EKlfHsQsH6Yx2smvcTCeyoDNgCW7FEYyV01drPlh2T243PR2DiDXqtC5N4GDm4Ma/lkxfW5a/4793vbA==",
-      "path": "newtonsoft.json/12.0.2",
-      "hashPath": "newtonsoft.json.12.0.2.nupkg.sha512"
     },
     "runtime.linux-arm.runtime.native.System.IO.Ports/4.7.0": {
       "type": "package",
