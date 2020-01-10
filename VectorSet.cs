@@ -7,7 +7,7 @@ using Where1.wstat.Regression;
 
 namespace Where1.wstat
 {
-	class VectorSet
+	public class VectorSet
 	{
 		public readonly DataSet[] DataSets;
 		public readonly List<List<double>> Vectors;

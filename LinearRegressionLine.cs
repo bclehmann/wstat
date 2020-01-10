@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Where1.wstat.Regression
 {
-    class LinearRegressionLine : IRegressionLine
+    public class LinearRegressionLine : IRegressionLine
     {
         public double[] Calculate(VectorSet vset)
         {

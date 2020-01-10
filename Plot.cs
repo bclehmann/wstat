@@ -15,7 +15,7 @@ namespace Where1.wstat.Graph
         y
     }
 
-    class Plot
+    public class Plot
     {
         VectorSet Vectors;
         public Plot(VectorSet vset)

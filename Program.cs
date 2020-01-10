@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace Where1.wstat
 {
-	class Program
+	public class Program
 	{
 		private static readonly Dictionary<string, string> Shortcuts = new Dictionary<string, string>(){
 			{ "list", "operation=list" },
