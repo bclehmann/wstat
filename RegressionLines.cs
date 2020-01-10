@@ -1,6 +1,6 @@
 ﻿namespace Where1.wstat
 {
-    enum RegressionLines
+    public enum RegressionLines
     {
         none,
         linear,

@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace Where1.wstat
 {
-	class DataSet
+	public class DataSet
 	{
 		private readonly List<double> set = new List<double>();
 

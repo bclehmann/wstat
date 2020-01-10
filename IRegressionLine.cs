@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Where1.wstat.Regression
 {
-    interface IRegressionLine
+    public interface IRegressionLine
     {
         double[] Calculate(VectorSet vset);
         double Residual(VectorSet vset, double[] vector);
