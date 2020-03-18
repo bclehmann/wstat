@@ -125,11 +125,7 @@ Type `wstat quantile` to split the set into quantiles. Choose the rank of the qu
 
 ## Linux Users
 
-This does work on Linux, all you have to do is find the file `wstat` in `bin/Release/netcoreapp3.0/linux-x64`, make it executable, and then run. If you need help making it executable, this should do: https://askubuntu.com/questions/229589/how-to-make-a-file-e-g-a-sh-script-executable-so-it-can-be-run-from-a-termi
-
-Please make sure you do this to the file `wstat` with no extension, not `wstat.dll` or anything like that.
-
-For drawing plots you will need two packages: `libc6-dev` and `libgdiplus` For some distributions, `xdg-utils` may not come preinstalled, and that is needed for auto-opening images.
+For drawing plots you will need two packages: `libc6-dev` and `libgdiplus` For some distributions, `xdg-utils` may not come preinstalled, and that is needed for auto-opening images. If you are not using this app for drawing plots, you do not need to install these packages.
 
 
 For APT
