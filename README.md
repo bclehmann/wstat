@@ -16,6 +16,10 @@ Will print something like this
 You can also do `wstat set=1,2,3 operation=list` if you're not a fan of the shorthand. The command line arguments can go in any order. For example `wstat list set=1,2,3` is equally valid. In addition, `list` is the default opperation, so `wstat set=1,2,3` is enough.
 
 You can also use scientific notation in your set, for example `wstat set=1.1e-2,1.0e-2,0.9` would work fine. You can use a capital or lower-case "E".
+
+# Downloads
+Compiled versions since `8.0.6` are available on my website: https://where1software.com/blobDownloads/wstat
+
 ## Summarizing a Dataset
 
 Lists are cool and all, but at the end of the day, what you care about is probably more down here. `wstat set=1,2,3 summary` will print something like this:
