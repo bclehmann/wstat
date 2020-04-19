@@ -18,7 +18,7 @@ You can also do `wstat set=1,2,3 operation=list` if you're not a fan of the shor
 You can also use scientific notation in your set, for example `wstat set=1.1e-2,1.0e-2,0.9` would work fine. You can use a capital or lower-case "E".
 
 # Downloads
-Compiled versions since `8.0.6` are available on my website: https://where1software.com/blobDownloads/wstat
+Compiled versions since `8.0.6` are available here: https://gist.github.com/Benny121221/7f7e0180b2d8d764f3a30ec661004b7e
 
 ## Summarizing a Dataset
 
