@@ -1,3 +1,6 @@
+# THIS PROJECT IS VULNERABLE TO [CVE-2021-24112](https://github.com/advisories/GHSA-rxg9-xrhp-64gj) ON LINUX AND MAC-OS. THIS PROJECT IS NOT BEING MAINTAINED, USE AT YOUR OWN RISK
+This vulnerability is labeled Critical with a CVSS score of 9.8/10
+
 
 
 # Statistics-CLI
